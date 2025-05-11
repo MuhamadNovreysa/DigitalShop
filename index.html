@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIMABIDA Digital Shop | 3D Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS with 3D Transformations and Advanced Animations */
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #1a1a2e;
+            --success: #4cc9f0;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --glass: rgba(255, 255, 255, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Floating particles background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        header {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-weight: 700;
+            font-size: 1.8rem;
+            background: linear-gradient(to right, var(--accent), var(--success));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo i {
+            font-size: 1.5rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .hero {
+            position: relative;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 2rem;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(67, 97, 238, 0.1) 0%, rgba(26, 26, 46, 0) 70%);
+            animation: pulse 15s infinite alternate;
+            z-index: -1;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, white, var(--success));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(247, 37, 133, 0.4);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            transform: translateZ(0);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px) translateZ(10px);
+            box-shadow: 0 6px 20px rgba(247, 37, 133, 0.6);
+        }
+        
+        .btn:hover::before {
+            opacity: 1;
+        }
+        
+        .btn:active {
+            transform: translateY(1px) translateZ(5px);
+        }
+        
+        .btn i {
+            font-size: 1rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, var(--success), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--accent), transparent);
+            border-radius: 3px;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
+            perspective: 1000px;
+        }
+        
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            transform-style: preserve-3d;
+            transform: translateZ(0);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(67, 97, 238, 0.1), transparent);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg) scale(1.03) translateZ(20px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        
+        .product-card:hover::before {
+            opacity: 1;
+        }
+        
+        .product-image-container {
+            height: 220px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.1);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(247, 37, 133, 0.5);
+            z-index: 1;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .product-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .product-price {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .product-price .old-price {
+            font-size: 0.9rem;
+            color: #999;
+            text-decoration: line-through;
+        }
+        
+        .product-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: none;
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .services-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .service-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(67, 97, 238, 0.1),
+                rgba(67, 97, 238, 0)
+            );
+            transform: rotate(30deg);
+            transition: all 0.5s ease;
+            z-index: 0;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px) translateZ(20px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .service-card:hover::before {
+            transform: rotate(30deg) translate(20%, 20%);
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .service-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+            line-height: 1.6;
+        }
+        
+        .floating-cart {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 20px rgba(247, 37, 133, 0.5);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .floating-cart:hover {
+            transform: translateY(-5px) scale(1.1) translateZ(10px);
+            box-shadow: 0 8px 25px rgba(247, 37, 133, 0.7);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: white;
+            color: var(--accent);
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            background: linear-gradient(to right, var(--dark), #16213e);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50%;
+            height: 2px;
+            background: var(--accent);
+        }
+        
+        .footer-column p, .footer-column a {
+            color: #ccc;
+            margin-bottom: 1rem;
+            display: block;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column a:hover {
+            color: var(--accent);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #999;
+        }
+        
+        /* 3D floating animation */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateZ(0);
+            }
+            50% {
+                transform: translateY(-20px) translateZ(10px);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 0.2;
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .products-grid, .services-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero {
+                height: auto;
+                padding: 4rem 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .product-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating particles background -->
+    <div class="particles" id="particles-js"></div>
+    
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <i class="fas fa-cube"></i>
+                <span>HIMABIDA 3D Shop</span>
+            </div>
+            <div class="nav-links">
+                <a href="#products">Produk</a>
+                <a href="#services">Jasa</a>
+                <a href="#about">Tentang</a>
+                <a href="#contact">Kontak</a>
+            </div>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Revolusi Digital dalam Genggaman</h1>
+            <p>Temukan produk dan jasa digital berkualitas dengan pengalaman 3D imersif dari Himpunan Mahasiswa Bisnis Digital</p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <a href="#products" class="btn">
+                    <i class="fas fa-shopping-bag"></i> Jelajahi Produk
+                </a>
+                <a href="#services" class="btn btn-outline">
+                    <i class="fas fa-hands-helping"></i> Lihat Jasa
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <section id="products" class="container">
+        <div class="section-title">
+            <h2>Produk Digital Unggulan</h2>
+        </div>
+        <div class="products-grid">
+            <!-- Product 1 with 3D effect -->
+            <div class="product-card">
+                <div class="product-badge">Terlaris!</div>
+                <div class="product-image-container">
+                    <img src="https://source.unsplash.com/random/600x400?website,template,design" alt="Template Website" class="product-image">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Template Website Bisnis 3D</h3>
+                    <div class="product-price">
+                        <span>Rp 199.000</span>
+                        <span class="old-price">Rp 299.000</span>
+                    </div>
+                    <p class="product-description">Template website modern dengan efek 3D parallax dan animasi canggih untuk bisnis Anda.</p>
+                    <div class="product-actions">
+                        <a href="#" class="btn btn-sm">
+                            <i class="fas fa-cart-plus"></i> Beli
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline">
+                            <i class="fas fa-eye"></i> Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 2 with 3D effect -->
+            <div class="product-card">
+                <div class="product-badge">Baru!</div>
+                <div class="product-image-container">
+                    <img src="https://source.unsplash.com/random/600x400?logo,branding,3d" alt="Paket Logo 3D" class="product-image">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Logo 3D & Branding Kit</h3>
+                    <div class="product-price">Rp 349.000</div>
+                    <p class="product-description">Logo 3D lengkap dengan mockup produk, kartu nama, dan panduan branding.</p>
+                    <div class="product-actions">
+                        <a href="#" class="btn btn-sm">
+                            <i class="fas fa-cart-plus"></i> Beli
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline">
+                            <i class="fas fa-eye"></i> Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 3 with 3D effect -->
+            <div class="product-card">
+                <div class="product-image-container">
+                    <img src="https://source.unsplash.com/random/600x400?ebook,marketing,digital" alt="E-Book Marketing" class="product-image">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">E-Book Mastery 3.0</h3>
+                    <div class="product-price">Rp 99.000</div>
+                    <p class="product-description">Panduan lengkap pemasaran digital dengan studi kasus 3D interaktif.</p>
+                    <div class="product-actions">
+                        <a href="#" class="btn btn-sm">
+                            <i class="fas fa-cart-plus"></i> Beli
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline">
+                            <i class="fas fa-eye"></i> Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 4 with 3D effect -->
+            <div class="product-card">
+                <div class="product-badge">Premium</div>
+                <div class="product-image-container">
+                    <img src="https://source.unsplash.com/random/600x400?wordpress,theme,3d" alt="WordPress Theme" class="product-image">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">3D WordPress Suite</h3>
+                    <div class="product-price">Rp 499.000</div>
+                    <p class="product-description">Theme WordPress dengan efek 3D parallax dan animasi scroll canggih.</p>
+                    <div class="product-actions">
+                        <a href="#" class="btn btn-sm">
+                            <i class="fas fa-cart-plus"></i> Beli
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline">
+                            <i class="fas fa-eye"></i> Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="services" class="container">
+        <div class="section-title">
+            <h2>Layanan Profesional Kami</h2>
+        </div>
+        <div class="services-list">
+            <!-- Service 1 with 3D effect -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <h3>Pembuatan Website 3D</h3>
+                <p>Jasa pembuatan website dengan efek 3D parallax dan animasi canggih untuk pengalaman pengguna yang imersif.</p>
+                <a href="#" class="btn btn-outline">
+                    <i class="fas fa-arrow-right"></i> Pesan Sekarang
+                </a>
+            </div>
+            
+            <!-- Service 2 with 3D effect -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-search-plus"></i>
+                </div>
+                <h3>Optimasi SEO 360°</h3>
+                <p>Layanan SEO komprehensif dengan analisis 3D untuk meningkatkan visibilitas website Anda di mesin pencari.</p>
+                <a href="#" class="btn btn-outline">
+                    <i class="fas fa-arrow-right"></i> Pesan Sekarang
+                </a>
+            </div>
+            
+            <!-- Service 3 with 3D effect -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-photo-video"></i>
+                </div>
+                <h3>Konten 3D & AR</h3>
+                <p>Produksi konten multimedia 3D dan Augmented Reality untuk kampanye pemasaran digital Anda.</p>
+                <a href="#" class="btn btn-outline">
+                    <i class="fas fa-arrow-right"></i> Pesan Sekarang
+                </a>
+            </div>
+            
+            <!-- Service 4 with 3D effect -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>AI Business Solution</h3>
+                <p>Implementasi kecerdasan buatan untuk otomatisasi bisnis dan analisis data prediktif.</p>
+                <a href="#" class="btn btn-outline">
+                    <i class="fas fa-arrow-right"></i> Pesan Sekarang
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <section id="about" class="container">
+        <div class="section-title">
+            <h2>Tentang HIMABIDA 3D Shop</h2>
+        </div>
+        <div style="background: var(--card-bg); padding: 2.5rem; border-radius: 15px; backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.1);">
+            <p style="text-align: center; font-size: 1.1rem; line-height: 1.8; max-width: 800px; margin: 0 auto;">
+                <span style="font-size: 1.5rem; color: var(--accent);">HIMABIDA 3D Shop</span> adalah terobosan terbaru dari Himpunan Mahasiswa Bisnis Digital yang menghadirkan pengalaman belanja produk dan jasa digital dengan teknologi 3D interaktif. Kami menggabungkan kreativitas desain dengan inovasi teknologi untuk memberikan solusi digital yang immersive dan memorable.
+            </p>
+        </div>
+    </section>
+    
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>HIMABIDA 3D Shop</h3>
+                <p>Solusi digital inovatif dengan pengalaman 3D imersif untuk bisnis masa depan.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Produk</h3>
+                <a href="#">Template Website</a>
+                <a href="#">Aset Digital</a>
+                <a href="#">E-Book & Kursus</a>
+                <a href="#">Tool Bisnis</a>
+            </div>
+            <div class="footer-column">
+                <h3>Layanan</h3>
+                <a href="#">Web Development</a>
+                <a href="#">Digital Marketing</a>
+                <a href="#">Konten Kreatif</a>
+                <a href="#">Konsultasi Bisnis</a>
+            </div>
+            <div class="footer-column">
+                <h3>Kontak</h3>
+                <p><i class="fas fa-envelope"></i> digital3d@himabida.ac.id</p>
+                <p><i class="fas fa-phone"></i> (021) 1234-5678</p>
+                <p><i class="fas fa-map-marker-alt"></i> Gedung HIMABIDA, Kampus Universitas</p>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 HIMABIDA 3D Shop. All rights reserved.
+        </div>
+    </footer>
+    
+    <!-- Floating cart button -->
+    <div class="floating-cart">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">3</span>
+    </div>
+
+    <script>
+        // Advanced JavaScript with 3D effects and animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create floating particles
+            const particlesContainer = document.getElementById('particles-js');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random properties
+                const size = Math.random() * 5 + 2;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 10;
+                const duration = Math.random() * 20 + 10;
+                const opacity = Math.random() * 0.5 + 0.1;
+                
+                // Apply styles
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.opacity = opacity;
+                particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+                
+                particlesContainer.appendChild(particle);
+            }
+            
+            // 3D tilt effect for cards
+            const cards = document.querySelectorAll('.product-card, .service-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const xAxis = (window.innerWidth / 2 - e.pageX) / 15;
+                    const yAxis = (window.innerHeight / 2 - e.pageY) / 15;
+                    card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) translateZ(20px)`;
+                });
+                
+                card.addEventListener('mouseenter', () => {
+                    card.style.transition = 'none';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0)';
+                });
+            });
+            
+            // Floating cart animation
+            const cartBtn = document.querySelector('.floating-cart');
+            let animationFrame;
+            let startTime = null;
+            const duration = 2000;
+            
+            function floatAnimation(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = (timestamp - startTime) / duration;
+                const yPos = Math.sin(progress * Math.PI * 2) * 10;
+                cartBtn.style.transform = `translateY(${yPos}px) translateZ(10px)`;
+                animationFrame = requestAnimationFrame(floatAnimation);
+            }
+            
+            animationFrame = requestAnimationFrame(floatAnimation);
+            
+            // Smooth scroll for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Scroll animation
+            const animateOnScroll = function() {
+                const elements = document.querySelectorAll('.product-card, .service-card, .section-title');
+                const windowHeight = window.innerHeight;
+                
+                elements.forEach((element, index) => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementPosition < windowHeight - elementVisible) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0) translateZ(0)';
+                    }
+                });
+            };
+            
+            // Set initial state
+            const products = document.querySelectorAll('.product-card');
+            const services = document.querySelectorAll('.service-card');
+            const sectionTitles = document.querySelectorAll('.section-title');
+            
+            products.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px) translateZ(-20px)';
+                card.style.transition = `all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${index * 0.1}s`;
+            });
+            
+            services.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px) translateZ(-20px)';
+                card.style.transition = `all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${index * 0.1 + 0.2}s`;
+            });
+            
+                        sectionTitles.forEach((title, index) => {
+                title.style.opacity = '0';
+                title.style.transform = 'translateY(30px)';
+                title.style.transition = `all 0.8s ease ${index * 0.1 + 0.1}s`;
+            });
+
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Trigger once on load
+
+            // 3D Product Viewer
+            const productImages = document.querySelectorAll('.product-image');
+            
+            productImages.forEach(img => {
+                img.addEventListener('mousemove', (e) => {
+                    const { left, top, width, height } = e.target.getBoundingClientRect();
+                    const x = (e.clientX - left) / width - 0.5;
+                    const y = (e.clientY - top) / height - 0.5;
+                    
+                    e.target.style.transform = `perspective(1000px) rotateY(${x * 15}deg) rotateX(${-y * 15}deg) scale(1.05)`;
+                    e.target.style.filter = 'brightness(1.1)';
+                });
+                
+                img.addEventListener('mouseleave', () => {
+                    img.style.transform = 'perspective(1000px) rotateY(0) rotateX(0) scale(1)';
+                    img.style.filter = 'brightness(1)';
+                });
+            });
+
+            // Interactive 3D Background Effect
+            document.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth - 0.5;
+                const y = e.clientY / window.innerHeight - 0.5;
+                
+                document.body.style.backgroundPosition = `
+                    ${50 + x * 10}% ${50 + y * 10}%
+                `;
+                
+                const hero = document.querySelector('.hero');
+                if (hero) {
+                    hero.style.transform = `translateX(${-x * 20}px) translateY(${-y * 20}px)`;
+                }
+            });
+
+            // 3D Button Effect
+            const buttons = document.querySelectorAll('.btn');
+            
+            buttons.forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const { left, top, width, height } = btn.getBoundingClientRect();
+                    const x = (e.clientX - left) / width - 0.5;
+                    const y = (e.clientY - top) / height - 0.5;
+                    
+                    btn.style.transform = `translateX(${x * 5}px) translateY(${y * 5}px) translateZ(10px)`;
+                    btn.style.boxShadow = `${-x * 5}px ${-y * 5}px 20px rgba(247, 37, 133, 0.6)`;
+                });
+                
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'translateZ(0)';
+                    btn.style.boxShadow = '0 4px 15px rgba(247, 37, 133, 0.4)';
+                });
+            });
+
+            // 3D Flip Card for Product Details
+            const productCards = document.querySelectorAll('.product-card');
+            
+            productCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.classList.toggle('flipped');
+                });
+            });
+
+            // Floating cart click event
+            cartBtn.addEventListener('click', function() {
+                // Create a mini 3D cart dropdown
+                const cartDropdown = document.createElement('div');
+                cartDropdown.className = 'cart-dropdown';
+                cartDropdown.innerHTML = `
+                    <div class="cart-header">
+                        <h4>Keranjang Belanja (3)</h4>
+                        <i class="fas fa-times close-cart"></i>
+                    </div>
+                    <div class="cart-items">
+                        <div class="cart-item">
+                            <img src="https://source.unsplash.com/random/100x100?website,template" alt="Product">
+                            <div class="item-details">
+                                <h5>Template Website</h5>
+                                <p>Rp 199.000 x 1</p>
+                            </div>
+                            <i class="fas fa-trash remove-item"></i>
+                        </div>
+                        <div class="cart-item">
+                            <img src="https://source.unsplash.com/random/100x100?ebook" alt="Product">
+                            <div class="item-details">
+                                <h5>E-Book Marketing</h5>
+                                <p>Rp 99.000 x 2</p>
+                            </div>
+                            <i class="fas fa-trash remove-item"></i>
+                        </div>
+                    </div>
+                    <div class="cart-footer">
+                        <div class="cart-total">
+                            <span>Total:</span>
+                            <span>Rp 397.000</span>
+                        </div>
+                        <button class="btn btn-checkout">
+                            <i class="fas fa-credit-card"></i> Checkout
+                        </button>
+                    </div>
+                `;
+                
+                // Apply 3D transform
+                cartDropdown.style.transform = 'translateY(20px) scale(0.9)';
+                cartDropdown.style.opacity = '0';
+                cartDropdown.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                
+                document.body.appendChild(cartDropdown);
+                
+                // Position the dropdown
+                const cartRect = cartBtn.getBoundingClientRect();
+                cartDropdown.style.position = 'fixed';
+                cartDropdown.style.right = '20px';
+                cartDropdown.style.bottom = '80px';
+                cartDropdown.style.width = '350px';
+                cartDropdown.style.background = 'rgba(26, 26, 46, 0.95)';
+                cartDropdown.style.backdropFilter = 'blur(10px)';
+                cartDropdown.style.borderRadius = '15px';
+                cartDropdown.style.padding = '1.5rem';
+                cartDropdown.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+                cartDropdown.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+                cartDropdown.style.zIndex = '1000';
+                cartDropdown.style.transformOrigin = 'bottom right';
+                
+                // Animate in
+                setTimeout(() => {
+                    cartDropdown.style.transform = 'translateY(0) scale(1)';
+                    cartDropdown.style.opacity = '1';
+                }, 10);
+                
+                // Close button
+                const closeBtn = cartDropdown.querySelector('.close-cart');
+                closeBtn.addEventListener('click', () => {
+                    cartDropdown.style.transform = 'translateY(20px) scale(0.9)';
+                    cartDropdown.style.opacity = '0';
+                    setTimeout(() => {
+                        cartDropdown.remove();
+                    }, 300);
+                });
+                
+                // Remove item
+                const removeButtons = cartDropdown.querySelectorAll('.remove-item');
+                removeButtons.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const item = this.closest('.cart-item');
+                        item.style.transform = 'translateX(100%)';
+                        item.style.opacity = '0';
+                        setTimeout(() => {
+                            item.remove();
+                        }, 300);
+                    });
+                });
+            });
+        });
+
+        // Additional CSS for 3D effects
+        const style = document.createElement('style');
+        style.textContent = `
+            /* 3D Flip Card Effect */
+            .product-card {
+                perspective: 1000px;
+                transform-style: preserve-3d;
+                transition: transform 0.6s;
+            }
+            
+            .product-card.flipped {
+                transform: rotateY(180deg);
+            }
+            
+            .product-card .product-info {
+                backface-visibility: hidden;
+                transform: rotateY(0deg);
+            }
+            
+            .product-card .product-back {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: white;
+                backface-visibility: hidden;
+                transform: rotateY(180deg);
+                padding: 1.5rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            
+            /* Cart Dropdown Styles */
+            .cart-dropdown {
+                transform-style: preserve-3d;
+            }
+            
+            .cart-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1.5rem;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .cart-header h4 {
+                margin: 0;
+                color: white;
+            }
+            
+            .close-cart {
+                color: #ccc;
+                cursor: pointer;
+                transition: color 0.3s;
+            }
+            
+            .close-cart:hover {
+                color: var(--accent);
+            }
+            
+            .cart-items {
+                max-height: 300px;
+                overflow-y: auto;
+                margin-bottom: 1.5rem;
+            }
+            
+            .cart-item {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding: 1rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                transition: all 0.3s;
+            }
+            
+            .cart-item img {
+                width: 60px;
+                height: 60px;
+                border-radius: 8px;
+                object-fit: cover;
+            }
+            
+            .item-details {
+                flex: 1;
+            }
+            
+            .item-details h5 {
+                margin: 0;
+                color: white;
+                font-size: 0.95rem;
+            }
+            
+            .item-details p {
+                margin: 0.3rem 0 0;
+                color: #ccc;
+                font-size: 0.85rem;
+            }
+            
+            .remove-item {
+                color: #999;
+                cursor: pointer;
+                transition: color 0.3s;
+            }
+            
+            .remove-item:hover {
+                color: var(--accent);
+            }
+            
+            .cart-footer {
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                padding-top: 1.5rem;
+            }
+            
+            .cart-total {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 1.5rem;
+                color: white;
+                font-weight: bold;
+            }
+            
+            .btn-checkout {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+            
+            /* 3D Animation for Hero */
+            @keyframes heroFloat {
+                0%, 100% {
+                    transform: translateY(0) rotate(0deg);
+                }
+                25% {
+                    transform: translateY(-10px) rotate(2deg);
+                }
+                50% {
+                    transform: translateY(-5px) rotate(-2deg);
+                }
+                75% {
+                    transform: translateY(-10px) rotate(2deg);
+                }
+            }
+            
+            .hero-content {
+                animation: heroFloat 8s ease-in-out infinite;
+            }
+            
+            /* 3D Glow Effect */
+            .glow {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                background: radial-gradient(circle at center, rgba(67, 97, 238, 0.3), transparent 70%);
+                z-index: -1;
+                opacity: 0;
+                transition: opacity 0.5s;
+            }
+            
+            .product-card:hover .glow {
+                opacity: 1;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Add back face to product cards
+        document.querySelectorAll('.product-card').forEach(card => {
+            const back = document.createElement('div');
+            back.className = 'product-back';
+            back.innerHTML = `
+                <h4>Detail Produk</h4>
+                <ul style="margin: 1rem 0; padding-left: 1.2rem; font-size: 0.9rem; color: #666;">
+                    <li>Garansi 1 tahun</li>
+                    <li>Update gratis</li>
+                    <li>Dukungan 24/7</li>
+                    <li>Dokumentasi lengkap</li>
+                </ul>
+                <button class="btn btn-sm" style="margin-top: auto; align-self: center;">
+                    <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+                </button>
+            `;
+            card.appendChild(back);
+            
+            // Add glow effect
+            const glow = document.createElement('div');
+            glow.className = 'glow';
+            card.appendChild(glow);
+        });
+    </script>
+</body>
+</html>
