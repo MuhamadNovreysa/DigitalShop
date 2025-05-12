@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>HIMA BISA Marketplace - Jasa & Produk</title>
+<title>HIMABIDA Marketplace - Jasa & Produk</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   * {
@@ -44,6 +44,70 @@
     color: #e0eefe;
     position: relative;
   }
+
+ /* GALLERY STYLES */
+.gallery-container {
+  position: relative;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.gallery-slide {
+  display: none;
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gallery-slide.active {
+  display: block;
+}
+
+.gallery-slide video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-controls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+}
+
+.gallery-btn {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  z-index: 10;
+}
+
+.gallery-dots {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ccc;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.dot.active {
+  background: #1546a0;
+}
 
   .logo {
     display: flex;
@@ -1152,7 +1216,18 @@
           rating: 4.6,
           reviewCount: 19,
           stock: 30,
-          tags: ["drink", "organic", "healthy"]
+          tags: ["drink", "organic", "healthy"], 
+         media: [
+        { 
+          type: 'image', 
+          url: 'https://images.unsplash.com/photo-1528825871115-3581a5387919?&auto=format&fit=crop&w=400&q=60' 
+        },
+        { 
+          type: 'image', 
+          url: 'https://images.unsplash.com/photo-1551029506-0807df4e2031?&auto=format&fit=crop&w=400&q=60' 
+        },
+
+      ]
         },
         {
           id: 'p5',
@@ -1956,6 +2031,27 @@
       `;
       modalImage.src = item.img;
       modalImage.alt = item.title;
+
+     // GALLERY SYSTEM
+  const galleryHTML = `
+    <div class="gallery-container">
+      ${item.media?.map((media, index) => `
+        <${media.type === 'video' ? 'video controls' : 'img'} 
+          src="${media.url}" 
+          class="gallery-slide ${index === 0 ? 'active' : ''}" 
+          alt="${item.title} ${index + 1}"
+        >
+      `).join('')}
+      <div class="gallery-controls">
+        <button class="gallery-btn" id="prev-slide">❮</button>
+        <button class="gallery-btn" id="next-slide">❯</button>
+      </div>
+      <div class="gallery-dots">
+        ${item.media?.map((_, index) => `
+          <span class="dot ${index === 0 ? 'active' : ''}" data-index="${index}"></span>`).join('')}
+      </div>
+    </div>
+  `;
       
       // Render rating
       const ratingStars = document.querySelector('.modal-rating-stars');
@@ -2219,14 +2315,80 @@
       );
     });
 
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
+    // ===== GALLERY SYSTEM =====
+let currentSlide = 0;
+let slideInterval;
+
+function nextSlide() {
+  const slides = document.querySelectorAll('.gallery-slide');
+  currentSlide = (currentSlide + 1) % slides.length;
+  updateGallery();
+}
+
+function prevSlide() {
+  const slides = document.querySelectorAll('.gallery-slide');
+  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+  updateGallery();
+}
+
+function goToSlide(index) {
+  currentSlide = index;
+  updateGallery();
+}
+
+function updateGallery() {
+  const slides = document.querySelectorAll('.gallery-slide');
+  const dots = document.querySelectorAll('.dot');
+  
+  slides.forEach((slide, i) => {
+    slide.classList.toggle('active', i === currentSlide);
+  });
+  
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === currentSlide);
+  });
+}
+
+// ===== EVENT LISTENERS =====
+modal.addEventListener('click', (e) => {
+  // Tutup modal jika klik di area gelap
+  if (e.target === modal) closeModal();
+  
+  // Jangan eksekusi gallery controls jika klik di luar gallery
+  if (!e.target.closest('.gallery-container')) return;
+  
+  // Gallery controls
+  if (e.target.id === 'next-slide') nextSlide();
+  if (e.target.id === 'prev-slide') prevSlide();
+  if (e.target.classList.contains('dot')) {
+    const index = parseInt(e.target.getAttribute('data-index'));
+    goToSlide(index);
+  }
+});
+
+// Auto-play management
+function startAutoPlay() {
+  slideInterval = setInterval(nextSlide, 3000);
+}
+
+modalCloseBtn.addEventListener('click', () => {
+  clearInterval(slideInterval);
+});
+
+// Inisialisasi saat modal dibuka
+function openModal() {
+  // ... kode lain ...
+  startAutoPlay();
+}
+
+    
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modal.classList.contains('active')) {
         closeModal();
       }
+
+     
     });
 
     cartToggleBtn.addEventListener('click', toggleCartPanel);
