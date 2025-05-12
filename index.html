@@ -1218,17 +1218,11 @@
           stock: 30,
           tags: ["drink", "organic", "healthy"], 
          media: [
-        { 
-          type: 'image', 
-          url: 'sari.jpg' 
-        },
-        { 
-          type: 'image', 
-          url: 'https://images.unsplash.com/photo-1551029506-0807df4e2031?&auto=format&fit=crop&w=400&q=60' 
-        },
-          { type: 'video', url: 'sarii.mp4' }
+    { type: 'image', url: 'sari.jpg' },
+    { type: 'image', url: 'sarii.jepeg' },
+    { type: 'video', url: 'sari-video.mp4' }
+  ]
 
-      ]
         },
         {
           id: 'p5',
@@ -2320,6 +2314,38 @@
 let currentSlide = 0;
 let slideInterval;
 
+function initGallery(mediaItems) {
+  const galleryContainer = document.createElement('div');
+  galleryContainer.className = 'gallery-container';
+  
+  galleryContainer.innerHTML = `
+    ${mediaItems.map((media, index) => `
+      <${media.type === 'video' ? 'video controls' : 'img'} 
+        src="${media.url}" 
+        class="gallery-slide ${index === 0 ? 'active' : ''}" 
+        alt="Gallery item ${index + 1}"
+      >
+    `).join('')}
+    <div class="gallery-controls">
+      <button class="gallery-btn" id="prev-slide">❮</button>
+      <button class="gallery-btn" id="next-slide">❯</button>
+    </div>
+    <div class="gallery-dots">
+      ${mediaItems.map((_, index) => `
+        <span class="dot ${index === 0 ? 'active' : ''}" data-index="${index}"></span>
+      `).join('')}
+    </div>
+  `;
+  
+  // Insert gallery before modal description
+  modalDesc.insertAdjacentElement('beforebegin', galleryContainer);
+  
+  // Start auto-play if there are multiple items
+  if (mediaItems.length > 1) {
+    startAutoPlay();
+  }
+}
+
 function nextSlide() {
   const slides = document.querySelectorAll('.gallery-slide');
   currentSlide = (currentSlide + 1) % slides.length;
@@ -2343,6 +2369,9 @@ function updateGallery() {
   
   slides.forEach((slide, i) => {
     slide.classList.toggle('active', i === currentSlide);
+    if (slide.tagName === 'VIDEO' && !slide.classList.contains('active')) {
+      slide.pause();
+    }
   });
   
   dots.forEach((dot, i) => {
@@ -2350,37 +2379,86 @@ function updateGallery() {
   });
 }
 
-// ===== EVENT LISTENERS =====
+function startAutoPlay() {
+  clearInterval(slideInterval);
+  slideInterval = setInterval(nextSlide, 3000);
+}
+
+function stopAutoPlay() {
+  clearInterval(slideInterval);
+}
+
+// Update the openModal function
+function openModal(item) {
+  modalCurrentItem = item;
+  modalTitle.textContent = item.title;
+  modalDesc.textContent = item.description;
+  modalSeller.innerHTML = `
+    <i class="fas fa-store"></i> ${item.seller}
+    ${item.isVerified ? '<i class="fas fa-check-circle verified-badge" title="Verified Seller"></i>' : ''}
+  `;
+  
+  // Clear previous gallery if exists
+  const existingGallery = document.querySelector('.gallery-container');
+  if (existingGallery) {
+    existingGallery.remove();
+  }
+  
+  // Set main image (fallback to first media item if no img property)
+  modalImage.src = item.img || (item.media?.length ? item.media[0].url : '');
+  modalImage.alt = item.title;
+  
+  // Initialize gallery if media exists
+  if (item.media?.length) {
+    initGallery(item.media);
+  }
+  
+  currentQuantity = 1;
+  quantityInput.value = currentQuantity;
+  
+  // Update wishlist button
+  modalWishlistBtn.classList.toggle('active', isInWishlist(item.id));
+  modalWishlistBtn.innerHTML = `
+    <i class="${isInWishlist(item.id) ? 'fas' : 'far'} fa-heart"></i>
+  `;
+  
+  renderVariantSelection(item);
+  modalAddCartBtn.textContent = `Tambah ${currentTab === 'products' ? 'Produk' : 'Jasa'} ke Keranjang`;
+  modal.classList.add('active');
+}
+
+// Update the closeModal function
+function closeModal() {
+  stopAutoPlay();
+  modal.classList.remove('active');
+  modalCurrentItem = null;
+  
+  // Clear gallery when modal closes
+  const gallery = document.querySelector('.gallery-container');
+  if (gallery) gallery.remove();
+}
+
+// Update modal event listeners
 modal.addEventListener('click', (e) => {
-  // Tutup modal jika klik di area gelap
-  if (e.target === modal) closeModal();
+  // Close modal if clicking on backdrop
+  if (e.target === modal) {
+    closeModal();
+    return;
+  }
   
-  // Jangan eksekusi gallery controls jika klik di luar gallery
-  if (!e.target.closest('.gallery-container')) return;
-  
-  // Gallery controls
-  if (e.target.id === 'next-slide') nextSlide();
-  if (e.target.id === 'prev-slide') prevSlide();
-  if (e.target.classList.contains('dot')) {
+  // Handle gallery controls
+  if (e.target.id === 'next-slide') {
+    e.stopPropagation();
+    nextSlide();
+  } else if (e.target.id === 'prev-slide') {
+    e.stopPropagation();
+    prevSlide();
+  } else if (e.target.classList.contains('dot')) {
+    e.stopPropagation();
     const index = parseInt(e.target.getAttribute('data-index'));
     goToSlide(index);
   }
 });
-
-// Auto-play management
-function startAutoPlay() {
-  slideInterval = setInterval(nextSlide, 3000);
-}
-
-modalCloseBtn.addEventListener('click', () => {
-  clearInterval(slideInterval);
-});
-
-// Inisialisasi saat modal dibuka
-function openModal() {
-  // ... kode lain ...
-  startAutoPlay();
-}
 
     
 
