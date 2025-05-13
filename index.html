@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>HIMABIDA Marketplace - Jasa & Produk</title>
+<title>HimaStore - Jasa & Produk</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   * {
@@ -45,69 +45,83 @@
     position: relative;
   }
 
- /* GALLERY STYLES */
-.gallery-container {
-  position: relative;
-  margin-bottom: 15px;
-  border-radius: 10px;
-  overflow: hidden;
-}
+  /* GALLERY STYLES */
+  .gallery-container {
+    position: relative;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 250px;
+  }
 
-.gallery-slide {
-  display: none;
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
+  .gallery-slide {
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
-.gallery-slide.active {
-  display: block;
-}
+  .gallery-slide.active {
+    display: block;
+  }
 
-.gallery-slide video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+  .gallery-slide video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
-.gallery-controls {
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  transform: translateY(-50%);
-}
+  .gallery-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 10px;
+  }
 
-.gallery-btn {
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  font-size: 1.5rem;
-  z-index: 10;
-}
+  .gallery-btn {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.gallery-dots {
-  text-align: center;
-  margin-top: 10px;
-}
+  .gallery-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
 
-.dot {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #ccc;
-  margin: 0 5px;
-  cursor: pointer;
-}
+  .gallery-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+  }
 
-.dot.active {
-  background: #1546a0;
-}
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .dot.active {
+    background: #4171d6;
+  }
 
   .logo {
     display: flex;
@@ -516,6 +530,31 @@
     line-height: 1.6;
   }
 
+  .modal-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 15px;
+  }
+
+  .modal-rating-stars {
+    color: #ffc107;
+  }
+
+  .modal-rating-count {
+    font-size: 0.8rem;
+    color: #93b8f7;
+  }
+
+  .modal-seller {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    color: #7296e7;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
   .modal-price-container {
     display: flex;
     align-items: center;
@@ -542,31 +581,6 @@
     padding: 3px 8px;
     border-radius: 20px;
     font-weight: 600;
-  }
-
-  .modal-seller {
-    font-size: 0.9rem;
-    margin-bottom: 20px;
-    color: #7296e7;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-
-  .modal-rating {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-bottom: 15px;
-  }
-
-  .modal-rating-stars {
-    color: #ffc107;
-  }
-
-  .modal-rating-count {
-    font-size: 0.8rem;
-    color: #93b8f7;
   }
 
   .variant-container {
@@ -1025,9 +1039,10 @@
     <header>
       <div class="logo">
         <div class="logo-icon">🛍️</div>
-        <div class="logo-text">HIMA BISA</div>
+        <div class="logo-text">HimaStore</div>
       </div>
-      <div class="tagline">Marketplace Anggota HIMA BISA</div>
+      <div class="tagline">Belanja aman, transaksi nyaman - Hanya di HimaStore 
+ </div>
     </header>
     <nav role="tablist">
       <button id="tab-products" role="tab" aria-selected="true" class="active">
@@ -1196,856 +1211,941 @@
           price: 35000,
           seller: "Budi HIMA BISA",
           sellerPhone: "6283213213213",
-          img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?&auto=format&fit=crop&w=400&q=60",
-          rating: 4.3,
-          reviewCount: 35,
-          stock: 20,
-          tags: ["catering", "healthy", "meal"]
+          img: "https://images.unsplash.com/photo-1590080877777-74a852ffe2db?&auto=format&fit=crop&w=400&q=60",
+      rating: 4.3,
+      reviewCount: 35,
+      stock: 20,
+      tags: ["catering", "healthy", "meal"]
+    },
+    {
+      id: 'p4',
+      title: "TOKO SARI - Minuman Sehat Organik",
+      category: "Makanan",
+      subcategory: "Minuman",
+      description: "Minuman sehat organik dengan kemasan menarik. Tanpa pengawet dan 100% alami.",
+      price: 15000,
+      originalPrice: 20000,
+      seller: "Sari HIMA BISA",
+      sellerPhone: "6284564564564",
+      img: "https://images.unsplash.com/photo-1528825871115-3581a5387919?&auto=format&fit=crop&w=400&q=60",
+      media: [
+        { type: 'image', url: 'https://images.unsplash.com/photo-1528825871115-3581a5387919?&auto=format&fit=crop&w=400&q=60' },
+        { type: 'image', url: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?&auto=format&fit=crop&w=400&q=60' },
+        { type: 'video', url: 'https://example.com/videos/sari-drink.mp4' }
+      ],
+      rating: 4.6,
+      reviewCount: 19,
+      stock: 30,
+      tags: ["drink", "organic", "healthy"]
+    },
+    {
+      id: 'p5',
+      title: "TOKO DITO - Laundry Kiloan Premium",
+      category: "Layanan",
+      subcategory: "Laundry",
+      description: "Laundry kiloan dengan kualitas premium dan antar jemput gratis dalam radius 5km.",
+      price: 10000,
+      seller: "Dito HIMA BISA",
+      sellerPhone: "6287897897897",
+      img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?&auto=format&fit=crop&w=400&q=60",
+      rating: 4.2,
+      reviewCount: 31,
+      isVerified: true,
+      stock: 15,
+      tags: ["laundry", "service"]
+    },
+    {
+      id: 'p6',
+      title: "TOKO LINA - Bunga Segar Custom",
+      category: "Hadiah",
+      subcategory: "Bunga",
+      description: "Karangan bunga segar custom untuk berbagai acara. Tersedia bunga lokal dan import.",
+      price: 120000,
+      originalPrice: 150000,
+      seller: "Lina HIMA BISA",
+      sellerPhone: "6289998887776",
+      img: "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?&auto=format&fit=crop&w=400&q=60",
+      rating: 4.7,
+      reviewCount: 23,
+      isVerified: true,
+      stock: 8,
+      tags: ["flower", "custom", "gift"]
+    },
+    {
+      id: 'p7',
+      title: "TOKO AGUS - Kaos Custom Sablon",
+      category: "Fashion",
+      subcategory: "Pakaian",
+      description: "Kaos berkualitas dengan sablon custom sesuai permintaan. Bahan katun combed 30s.",
+      price: 85000,
+      seller: "Agus HIMA BISA",
+      sellerPhone: "6286665554443",
+      img: "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?&auto=format&fit=crop&w=400&q=60",
+      rating: 4.4,
+      reviewCount: 17,
+      stock: 25,
+      variants: [
+        {
+          name: "Ukuran",
+          options: [
+            { name: "S" },
+            { name: "M" },
+            { name: "L" },
+            { name: "XL" }
+          ]
         },
         {
-          id: 'p4',
-          title: "TOKO SARI - Minuman Sehat Organik",
-          category: "Makanan",
-          subcategory: "Minuman",
-          description: "Minuman sehat organik dengan kemasan menarik. Tanpa pengawet dan 100% alami.",
-          price: 15000,
-          originalPrice: 20000,
-          seller: "Sari HIMA BISA",
-          sellerPhone: "6284564564564",
-          img: "https://images.unsplash.com/photo-1528825871115-3581a5387919?&auto=format&fit=crop&w=400&q=60",
-          rating: 4.6,
-          reviewCount: 19,
-          stock: 30,
-          tags: ["drink", "organic", "healthy"], 
-         media: [
-    { type: 'image', url: 'Sari.jpg' },
-    { type: 'image', url: 'sarii.jpeg' },
-    { type: 'video', url: 'sarii.mp4' }
-  ]
-        },
-        {
-          id: 'p5',
-          title: "TOKO DITO - Laundry Kiloan Premium",
-          category: "Layanan",
-          subcategory: "Laundry",
-          description: "Laundry kiloan dengan kualitas premium dan antar jemput gratis dalam radius 5km.",
-          price: 10000,
-          seller: "Dito HIMA BISA",
-          sellerPhone: "6287897897897",
-          img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?&auto=format&fit=crop&w=400&q=60",
-          rating: 4.2,
-          reviewCount: 31,
-          isVerified: true,
-          stock: 15,
-          tags: ["laundry", "service"]
-        },
-        {
-                    id: 'p6',
-          title: "TOKO LINA - Bunga Segar Custom",
-          category: "Hadiah",
-          subcategory: "Bunga",
-          description: "Karangan bunga segar custom untuk berbagai acara. Tersedia bunga lokal dan import.",
-          price: 120000,
-          originalPrice: 150000,
-          seller: "Lina HIMA BISA",
-          sellerPhone: "6289998887776",
-          img: "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?&auto=format&fit=crop&w=400&q=60",
-          rating: 4.7,
-          reviewCount: 23,
-          isVerified: true,
-          stock: 8,
-          tags: ["flower", "custom", "gift"]
-        },
-        {
-          id: 'p7',
-          title: "TOKO AGUS - Kaos Custom Sablon",
-          category: "Fashion",
-          subcategory: "Pakaian",
-          description: "Kaos berkualitas dengan sablon custom sesuai permintaan. Bahan katun combed 30s.",
-          price: 85000,
-          seller: "Agus HIMA BISA",
-          sellerPhone: "6286665554443",
-          img: "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?&auto=format&fit=crop&w=400&q=60",
-          rating: 4.4,
-          reviewCount: 17,
-          stock: 25,
-          variants: [
-            {
-              name: "Ukuran",
-              options: [
-                { name: "S" },
-                { name: "M" },
-                { name: "L" },
-                { name: "XL" }
-              ]
-            },
-            {
-              name: "Warna",
-              options: [
-                { name: "Hitam" },
-                { name: "Putih" },
-                { name: "Abu-abu" },
-                { name: "Biru Navy" }
-              ]
-            }
-          ],
-          tags: ["clothing", "custom", "tshirt"]
+          name: "Warna",
+          options: [
+            { name: "Hitam" },
+            { name: "Putih" },
+            { name: "Abu-abu" },
+            { name: "Biru Navy" }
+          ]
         }
       ],
-      jasa: [
-        {
-          id: 'j1',
-          title: "Jasa Pembuatan Website Profesional",
-          category: "Website",
-          description: "Buat website profesional untuk bisnis Anda dengan desain responsive dan fitur lengkap.",
-          price: 1500000,
-          originalPrice: 2000000,
-          seller: "Fira HIMA BISA",
-          sellerPhone: "6281112223333",
-          img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?&auto=format&fit=crop&w=400&q=60",
-          rating: 4.9,
-          reviewCount: 37,
-          isVerified: true,
-          stock: 5,
-          tags: ["website", "development", "business"]
-        },
-        {
-          id: 'j2',
-          title: "Jasa Editing Video Profesional",
-          category: "Editing",
-          description: "Editing video profesional untuk konten YouTube, iklan, atau acara spesial Anda.",
-          price: 200000,
-          seller: "Gilang HIMA BISA",
-          sellerPhone: "6282223334444",
-          img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?&auto=format&fit=crop&w=400&q=60",
-          rating: 4.6,
-          reviewCount: 29,
-          stock: 10,
-          tags: ["video", "editing", "content"]
-        },
-        {
-          id: 'j3',
-          title: "Jasa Penulisan Artikel SEO",
-          category: "Writer",
-          description: "Artikel SEO friendly untuk blog dan website dengan riset keyword profesional.",
-          price: 75000,
-          seller: "Hana HIMA BISA",
-          sellerPhone: "6283334445555",
-          img: "https://images.unsplash.com/photo-1455390582262-044cdead277a?&auto=format&fit=crop&w=400&q=60",
-          rating: 4.5,
-          reviewCount: 14,
-          isVerified: true,
-          stock: 15,
-          tags: ["writing", "content", "seo"]
-        },
-        {
-          id: 'j4',
-          title: "Jasa Desain Grafis Kreatif",
-          category: "Design",
-          description: "Desain logo, banner, dan materi promosi lainnya dengan konsep kreatif.",
-          price: 150000,
-          originalPrice: 200000,
-          seller: "Dewi HIMA BISA",
-          sellerPhone: "6284445556666",
-          img: "https://images.unsplash.com/photo-1531497865142-43aa20aa43d6?&auto=format&fit=crop&w=400&q=60",
-          rating: 4.7,
-          reviewCount: 21,
-          stock: 7,
-          tags: ["design", "graphic", "creative"]
-        },
-        {
-          id: 'j5',
-          title: "Jasa Fotografi Produk E-commerce",
-          category: "Photografer",
-          description: "Foto produk profesional untuk e-commerce Anda dengan lighting terbaik.",
-          price: 250000,
-          seller: "Edo HIMA BISA",
-          sellerPhone: "6285556667777",
-          img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?&auto=format&fit=crop&w=400&q=60",
-          rating: 4.8,
-          reviewCount: 19,
-          isVerified: true,
-          stock: 3,
-          tags: ["photography", "product", "ecommerce"]
-        },
-        {
-          id: 'j6',
-          title: "Jasa Penerjemah Inggris-Indonesia",
-          category: "Writer",
-          description: "Penerjemahan dokumen profesional dari Inggris ke Indonesia dan sebaliknya.",
-          price: 50000,
-          seller: "Rani HIMA BISA",
-          sellerPhone: "6287778889990",
-          img: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?&auto=format&fit=crop&w=400&q=60",
-          rating: 4.3,
-          reviewCount: 12,
-          stock: 20,
-          tags: ["translation", "document", "language"]
-        },
-        {
-          id: 'j7',
-          title: "Jasa Desain Interior Rumah",
-          category: "Design",
-          description: "Konsultasi dan desain interior rumah dengan konsep modern minimalis.",
-          price: 500000,
-          seller: "Adi HIMA BISA",
-          sellerPhone: "6288889990001",
-          img: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?&auto=format&fit=crop&w=400&q=60",
-          rating: 4.9,
-          reviewCount: 8,
-          isVerified: true,
-          stock: 4,
-          tags: ["interior", "design", "home"]
-        }
-      ]
-    };
-
-    // State aplikasi
-    let currentTab = 'products';
-    let currentFilter = 'Semua';
-    let cart = {};
-    let currentSeller = null;
-    let selectedVariants = {};
-    let currentQuantity = 1;
-    let modalCurrentItem = null;
-    let wishlist = [];
-    let searchQuery = '';
-    let sortBy = 'popular';
-
-    // Referensi DOM
-    const tabs = {
-      products: document.getElementById('tab-products'),
-      jasa: document.getElementById('tab-jasa')
-    };
-    const listingsEl = document.getElementById('listings');
-    const searchInput = document.getElementById('search-input');
-    const sortSelect = document.getElementById('sort-select');
-    const modal = document.getElementById('modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDesc = document.getElementById('modal-desc');
-    const modalSeller = document.getElementById('modal-seller');
-    const modalPrice = document.getElementById('modal-price');
-    const modalOriginalPrice = document.getElementById('modal-original-price');
-    const modalDiscount = document.getElementById('modal-discount');
-    const modalImage = document.getElementById('modal-image');
-    const variantSelectionEl = document.getElementById('variant-selection');
-    const stockInfoEl = document.getElementById('stock-info');
-    const quantityInput = document.getElementById('quantity-input');
-    const decreaseQtyBtn = document.getElementById('decrease-qty');
-    const increaseQtyBtn = document.getElementById('increase-qty');
-    const modalCloseBtn = document.getElementById('modal-close-btn');
-    const modalAddCartBtn = document.getElementById('modal-add-cart-btn');
-    const modalWishlistBtn = document.getElementById('modal-wishlist-btn');
-    const cartToggleBtn = document.getElementById('cart-toggle');
-    const cartBadge = document.getElementById('cart-badge');
-    const cartPanel = document.getElementById('cart-panel');
-    const cartItemsEl = document.getElementById('cart-items');
-    const cartTotalEl = document.getElementById('cart-total');
-    const cartCheckoutBtn = document.getElementById('cart-checkout-btn');
-    const clearCartBtn = document.getElementById('clear-cart-btn');
-
-    // Fungsi utilitas
-    function formatPrice(num) {
-      return 'Rp ' + num.toLocaleString('id-ID');
+      tags: ["clothing", "custom", "tshirt"]
     }
-
-    function calculateDiscount(originalPrice, price) {
-      return Math.round(((originalPrice - price) / originalPrice) * 100);
+  ],
+  jasa: [
+    {
+      id: 'j1',
+      title: "Jasa Pembuatan Website Profesional",
+      category: "Website",
+      description: "Buat website profesional untuk bisnis Anda dengan desain responsive dan fitur lengkap.",
+      price: 1500000,
+      originalPrice: 2000000,
+      seller: "Fira HIMA BISA",
+      sellerPhone: "6281112223333",
+      img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?&auto=format&fit=crop&w=400&q=60",
+      rating: 4.9,
+      reviewCount: 37,
+      isVerified: true,
+      stock: 5,
+      tags: ["website", "development", "business"]
+    },
+    {
+      id: 'j2',
+      title: "Jasa Editing Video Profesional",
+      category: "Editing",
+      description: "Editing video profesional untuk konten YouTube, iklan, atau acara spesial Anda.",
+      price: 200000,
+      seller: "Gilang HIMA BISA",
+      sellerPhone: "6282223334444",
+      img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?&auto=format&fit=crop&w=400&q=60",
+      rating: 4.6,
+      reviewCount: 29,
+      stock: 10,
+      tags: ["video", "editing", "content"]
+    },
+    {
+      id: 'j3',
+      title: "Jasa Penulisan Artikel SEO",
+      category: "Writer",
+      description: "Artikel SEO friendly untuk blog dan website dengan riset keyword profesional.",
+      price: 75000,
+      seller: "Hana HIMA BISA",
+      sellerPhone: "6283334445555",
+      img: "https://images.unsplash.com/photo-1455390582262-044cdead277a?&auto=format&fit=crop&w=400&q=60",
+      rating: 4.5,
+      reviewCount: 14,
+      isVerified: true,
+      stock: 15,
+      tags: ["writing", "content", "seo"]
+    },
+    {
+      id: 'j4',
+      title: "Jasa Desain Grafis Kreatif",
+      category: "Design",
+      description: "Desain logo, banner, dan materi promosi lainnya dengan konsep kreatif.",
+      price: 150000,
+      originalPrice: 200000,
+      seller: "Dewi HIMA BISA",
+      sellerPhone: "6284445556666",
+      img: "https://images.unsplash.com/photo-1531497865142-43aa20aa43d6?&auto=format&fit=crop&w=400&q=60",
+      rating: 4.7,
+      reviewCount: 21,
+      stock: 7,
+      tags: ["design", "graphic", "creative"]
+    },
+    {
+      id: 'j5',
+      title: "Jasa Fotografi Produk E-commerce",
+      category: "Photografer",
+      description: "Foto produk profesional untuk e-commerce Anda dengan lighting terbaik.",
+      price: 250000,
+      seller: "Edo HIMA BISA",
+      sellerPhone: "6285556667777",
+      img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?&auto=format&fit=crop&w=400&q=60",
+      rating: 4.8,
+      reviewCount: 19,
+      isVerified: true,
+      stock: 3,
+      tags: ["photography", "product", "ecommerce"]
+    },
+    {
+      id: 'j6',
+      title: "Jasa Penerjemah Inggris-Indonesia",
+      category: "Writer",
+      description: "Penerjemahan dokumen profesional dari Inggris ke Indonesia dan sebaliknya.",
+      price: 50000,
+      seller: "Rani HIMA BISA",
+      sellerPhone: "6287778889990",
+      img: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?&auto=format&fit=crop&w=400&q=60",
+      rating: 4.3,
+      reviewCount: 12,
+      stock: 20,
+      tags: ["translation", "document", "language"]
+    },
+    {
+      id: 'j7',
+      title: "Jasa Desain Interior Rumah",
+      category: "Design",
+      description: "Konsultasi dan desain interior rumah dengan konsep modern minimalis.",
+      price: 500000,
+      seller: "Adi HIMA BISA",
+      sellerPhone: "6288889990001",
+      img: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?&auto=format&fit=crop&w=400&q=60",
+      rating: 4.9,
+      reviewCount: 8,
+      isVerified: true,
+      stock: 4,
+      tags: ["interior", "design", "home"]
     }
+  ]
+};
 
-    function showNotification(message, isError = true) {
-      const notification = document.createElement('div');
-      notification.className = 'notification';
-      notification.innerHTML = `
-        <span>${isError ? '⚠️' : '✓'}</span>
-        <span>${message}</span>
-      `;
-      notification.style.background = isError ? '#e03131' : '#2f9e44';
-      document.body.appendChild(notification);
-      
-      setTimeout(() => {
-        notification.remove();
-      }, 3000);
+// State aplikasi
+let currentTab = 'products';
+let currentFilter = 'Semua';
+let cart = {};
+let currentSeller = null;
+let selectedVariants = {};
+let currentQuantity = 1;
+let modalCurrentItem = null;
+let wishlist = [];
+let searchQuery = '';
+let sortBy = 'popular';
+let currentSlideIndex = 0;
+
+// Referensi DOM
+const tabs = {
+  products: document.getElementById('tab-products'),
+  jasa: document.getElementById('tab-jasa')
+};
+const listingsEl = document.getElementById('listings');
+const searchInput = document.getElementById('search-input');
+const sortSelect = document.getElementById('sort-select');
+const modal = document.getElementById('modal');
+const modalTitle = document.getElementById('modal-title');
+const modalDesc = document.getElementById('modal-desc');
+const modalSeller = document.getElementById('modal-seller');
+const modalPrice = document.getElementById('modal-price');
+const modalOriginalPrice = document.getElementById('modal-original-price');
+const modalDiscount = document.getElementById('modal-discount');
+const modalImage = document.getElementById('modal-image');
+const variantSelectionEl = document.getElementById('variant-selection');
+const stockInfoEl = document.getElementById('stock-info');
+const quantityInput = document.getElementById('quantity-input');
+const decreaseQtyBtn = document.getElementById('decrease-qty');
+const increaseQtyBtn = document.getElementById('increase-qty');
+const modalCloseBtn = document.getElementById('modal-close-btn');
+const modalAddCartBtn = document.getElementById('modal-add-cart-btn');
+const modalWishlistBtn = document.getElementById('modal-wishlist-btn');
+const cartToggleBtn = document.getElementById('cart-toggle');
+const cartBadge = document.getElementById('cart-badge');
+const cartPanel = document.getElementById('cart-panel');
+const cartItemsEl = document.getElementById('cart-items');
+const cartTotalEl = document.getElementById('cart-total');
+const cartCheckoutBtn = document.getElementById('cart-checkout-btn');
+const clearCartBtn = document.getElementById('clear-cart-btn');
+
+// Fungsi utilitas
+function formatPrice(num) {
+  return 'Rp ' + num.toLocaleString('id-ID');
+}
+
+function calculateDiscount(originalPrice, price) {
+  return Math.round(((originalPrice - price) / originalPrice) * 100);
+}
+
+function showNotification(message, isError = true) {
+  const notification = document.createElement('div');
+  notification.className = 'notification';
+  notification.innerHTML = `
+    <span>${isError ? '⚠️' : '✓'}</span>
+    <span>${message}</span>
+  `;
+  notification.style.background = isError ? '#e03131' : '#2f9e44';
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
+}
+
+function calculateItemPrice(item, selectedVariants) {
+  if (!item.variants) return item.price || 0;
+  
+  let basePrice = 0;
+  let multiplier = 1;
+  
+  const firstVariant = item.variants[0];
+  if (firstVariant && selectedVariants[firstVariant.name]) {
+    const selectedOption = firstVariant.options.find(opt => opt.name === selectedVariants[firstVariant.name]);
+    if (selectedOption && selectedOption.price) {
+      basePrice = selectedOption.price;
     }
-
-    function calculateItemPrice(item, selectedVariants) {
-      if (!item.variants) return item.price || 0;
-      
-      let basePrice = 0;
-      let multiplier = 1;
-      
-      const firstVariant = item.variants[0];
-      if (firstVariant && selectedVariants[firstVariant.name]) {
-        const selectedOption = firstVariant.options.find(opt => opt.name === selectedVariants[firstVariant.name]);
-        if (selectedOption && selectedOption.price) {
-          basePrice = selectedOption.price;
-        }
+  }
+  
+  if (basePrice === 0 && item.price) {
+    basePrice = item.price;
+  }
+  
+  item.variants.forEach(variant => {
+    if (selectedVariants[variant.name]) {
+      const selectedOption = variant.options.find(opt => opt.name === selectedVariants[variant.name]);
+      if (selectedOption && selectedOption.priceMultiplier) {
+        multiplier = selectedOption.priceMultiplier;
       }
-      
-      if (basePrice === 0 && item.price) {
-        basePrice = item.price;
-      }
-      
-      item.variants.forEach(variant => {
-        if (selectedVariants[variant.name]) {
-          const selectedOption = variant.options.find(opt => opt.name === selectedVariants[variant.name]);
-          if (selectedOption && selectedOption.priceMultiplier) {
-            multiplier = selectedOption.priceMultiplier;
-          }
-        }
+    }
+  });
+  
+  return Math.round(basePrice * multiplier);
+}
+
+function generateCartItemId(item, selectedVariants) {
+  if (!item.variants) return item.id;
+  
+  let variantString = '';
+  item.variants.forEach(variant => {
+    if (selectedVariants[variant.name]) {
+      variantString += `_${variant.name}:${selectedVariants[variant.name]}`;
+    }
+  });
+  
+  return `${item.id}${variantString}`;
+}
+
+function updateCartBadge() {
+  const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
+  cartBadge.textContent = totalItems;
+  cartBadge.style.display = totalItems > 0 ? 'flex' : 'none';
+}
+
+function isInWishlist(itemId) {
+  return wishlist.includes(itemId);
+}
+
+function toggleWishlist(itemId) {
+  const index = wishlist.indexOf(itemId);
+  if (index === -1) {
+    wishlist.push(itemId);
+    return true;
+  } else {
+    wishlist.splice(index, 1);
+    return false;
+  }
+}
+
+function getItemStock(item, selectedVariants) {
+  if (!item.variants) return item.stock || 0;
+  
+  const firstVariant = item.variants[0];
+  if (firstVariant && selectedVariants[firstVariant.name]) {
+    const selectedOption = firstVariant.options.find(opt => opt.name === selectedVariants[firstVariant.name]);
+    if (selectedOption && typeof selectedOption.stock !== 'undefined') {
+      return selectedOption.stock;
+    }
+  }
+  
+  return item.stock || 0;
+}
+
+function sortItems(items) {
+  switch(sortBy) {
+    case 'newest':
+      return [...items].sort((a, b) => b.id.localeCompare(a.id));
+    case 'price-low':
+      return [...items].sort((a, b) => {
+        const priceA = a.price || (a.variants ? Math.min(...a.variants[0].options.map(o => o.price || 0)) : 0;
+        const priceB = b.price || (b.variants ? Math.min(...b.variants[0].options.map(o => o.price || 0)) : 0;
+        return priceA - priceB;
       });
-      
-      return Math.round(basePrice * multiplier);
-    }
-
-    function generateCartItemId(item, selectedVariants) {
-      if (!item.variants) return item.id;
-      
-      let variantString = '';
-      item.variants.forEach(variant => {
-        if (selectedVariants[variant.name]) {
-          variantString += `_${variant.name}:${selectedVariants[variant.name]}`;
-        }
+    case 'price-high':
+      return [...items].sort((a, b) => {
+        const priceA = a.price || (a.variants ? Math.max(...a.variants[0].options.map(o => o.price || 0)) : 0;
+        const priceB = b.price || (b.variants ? Math.max(...b.variants[0].options.map(o => o.price || 0)) : 0;
+        return priceB - priceA;
       });
-      
-      return `${item.id}${variantString}`;
-    }
+    case 'rating':
+      return [...items].sort((a, b) => b.rating - a.rating);
+    case 'popular':
+    default:
+      return [...items].sort((a, b) => b.reviewCount - a.reviewCount);
+  }
+}
 
-    function updateCartBadge() {
-      const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
-      cartBadge.textContent = totalItems;
-      cartBadge.style.display = totalItems > 0 ? 'flex' : 'none';
+// Fungsi render
+function renderFilter() {
+  const filterContainer = document.querySelector('.filter-container') || document.createElement('div');
+  filterContainer.className = 'filter-container';
+  
+  let filters = ['Semua'];
+  
+  if (currentTab === 'products') {
+    filters = filters.concat(['Makanan', 'Layanan', 'Fashion', 'Hadiah']);
+  } else {
+    filters = filters.concat(['Website', 'Editing', 'Writer', 'Design', 'Photografer']);
+  }
+  
+  filterContainer.innerHTML = '';
+  
+  filters.forEach(filter => {
+    const btn = document.createElement('button');
+    btn.className = `filter-btn ${currentFilter === filter ? 'active' : ''}`;
+    
+    // Tambahkan ikon berdasarkan filter
+    let icon = '';
+    switch(filter) {
+      case 'Makanan': icon = 'fa-utensils'; break;
+      case 'Layanan': icon = 'fa-concierge-bell'; break;
+      case 'Fashion': icon = 'fa-tshirt'; break;
+      case 'Hadiah': icon = 'fa-gift'; break;
+      case 'Website': icon = 'fa-globe'; break;
+      case 'Editing': icon = 'fa-film'; break;
+      case 'Writer': icon = 'fa-pen-fancy'; break;
+      case 'Design': icon = 'fa-paint-brush'; break;
+      case 'Photografer': icon = 'fa-camera'; break;
+      default: icon = 'fa-boxes'; // Untuk 'Semua'
     }
+    
+    btn.innerHTML = `<i class="fas ${icon}"></i> ${filter}`;
+    btn.addEventListener('click', () => {
+      currentFilter = filter;
+      renderListings();
+      filterContainer.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.toggle('active', b.textContent.includes(filter));
+      });
+    });
+    filterContainer.appendChild(btn);
+  });
+  
+  if (!document.querySelector('.filter-container')) {
+    listingsEl.insertBefore(filterContainer, listingsEl.firstChild);
+  }
+}
 
-    function isInWishlist(itemId) {
-      return wishlist.includes(itemId);
-    }
-
-    function toggleWishlist(itemId) {
-      const index = wishlist.indexOf(itemId);
-      if (index === -1) {
-        wishlist.push(itemId);
-        return true;
-      } else {
-        wishlist.splice(index, 1);
-        return false;
+function renderVariantSelection(item) {
+  variantSelectionEl.innerHTML = '';
+  selectedVariants = {};
+  
+  if (!item.variants) return;
+  
+  item.variants.forEach(variant => {
+    const container = document.createElement('div');
+    container.className = 'variant-container';
+    
+    const title = document.createElement('div');
+    title.className = 'variant-title';
+    title.textContent = variant.name;
+    container.appendChild(title);
+    
+    const optionsContainer = document.createElement('div');
+    optionsContainer.className = 'variant-options';
+    
+    variant.options.forEach(option => {
+      const optionEl = document.createElement('div');
+      optionEl.className = 'variant-option';
+      if (option.outOfStock) {
+        optionEl.classList.add('out-of-stock');
       }
-    }
-
-    function getItemStock(item, selectedVariants) {
-      if (!item.variants) return item.stock || 0;
       
-      const firstVariant = item.variants[0];
-      if (firstVariant && selectedVariants[firstVariant.name]) {
-        const selectedOption = firstVariant.options.find(opt => opt.name === selectedVariants[firstVariant.name]);
-        if (selectedOption && typeof selectedOption.stock !== 'undefined') {
-          return selectedOption.stock;
-        }
+      optionEl.textContent = option.name;
+      if (option.price) {
+        optionEl.textContent += ` (${formatPrice(option.price)})`;
       }
       
-      return item.stock || 0;
-    }
-
-    function sortItems(items) {
-      switch(sortBy) {
-        case 'newest':
-          return [...items].sort((a, b) => b.id.localeCompare(a.id));
-        case 'price-low':
-          return [...items].sort((a, b) => {
-            const priceA = a.price || (a.variants ? Math.min(...a.variants[0].options.map(o => o.price || 0)) : 0);
-            const priceB = b.price || (b.variants ? Math.min(...b.variants[0].options.map(o => o.price || 0)) : 0);
-            return priceA - priceB;
+      if (!option.outOfStock) {
+        optionEl.addEventListener('click', () => {
+          selectedVariants[variant.name] = option.name;
+          optionsContainer.querySelectorAll('.variant-option').forEach(el => {
+            el.classList.remove('selected');
           });
-        case 'price-high':
-          return [...items].sort((a, b) => {
-            const priceA = a.price || (a.variants ? Math.max(...a.variants[0].options.map(o => o.price || 0)) : 0);
-            const priceB = b.price || (b.variants ? Math.max(...b.variants[0].options.map(o => o.price || 0)) : 0);
-            return priceB - priceA;
-          });
-        case 'rating':
-          return [...items].sort((a, b) => b.rating - a.rating);
-        case 'popular':
-        default:
-          return [...items].sort((a, b) => b.reviewCount - a.reviewCount);
+          optionEl.classList.add('selected');
+          updatePriceDisplay();
+          updateStockInfo();
+        });
+      }
+      
+      // Pilih opsi pertama yang tersedia
+      if (variant.options.indexOf(option) === 0 && !option.outOfStock) {
+        selectedVariants[variant.name] = option.name;
+        optionEl.classList.add('selected');
+      }
+      
+      optionsContainer.appendChild(optionEl);
+    });
+    
+    container.appendChild(optionsContainer);
+    variantSelectionEl.appendChild(container);
+  });
+  
+  updatePriceDisplay();
+  updateStockInfo();
+}
+
+function updatePriceDisplay() {
+  if (!modalCurrentItem) return;
+  
+  const price = calculateItemPrice(modalCurrentItem, selectedVariants);
+  modalPrice.textContent = formatPrice(price);
+  
+  // Tampilkan harga asli dan diskon jika ada
+  if (modalCurrentItem.originalPrice) {
+    const originalPrice = modalCurrentItem.variants ? 
+      Math.max(...modalCurrentItem.variants[0].options.map(o => o.price || modalCurrentItem.originalPrice)) : 
+      modalCurrentItem.originalPrice;
+      
+    modalOriginalPrice.textContent = formatPrice(originalPrice);
+    modalOriginalPrice.style.display = 'block';
+    
+    const discount = calculateDiscount(originalPrice, price);
+    modalDiscount.textContent = `${discount}%`;
+    modalDiscount.style.display = 'inline-block';
+  } else {
+    modalOriginalPrice.style.display = 'none';
+    modalDiscount.style.display = 'none';
+  }
+}
+
+function updateStockInfo() {
+  if (!modalCurrentItem) return;
+  
+  const stock = getItemStock(modalCurrentItem, selectedVariants);
+  stockInfoEl.textContent = stock > 5 ? 
+    `Stok: ${stock} tersedia` : 
+    stock > 0 ? 
+      `Stok: Hanya ${stock} tersisa!` : 
+      'Stok habis';
+      
+  stockInfoEl.style.color = stock > 5 ? '#93b8f7' : stock > 0 ? '#ffc107' : '#e03131';
+  
+  // Disable tombol tambah jika stok habis
+  modalAddCartBtn.disabled = stock <= 0;
+  
+  // Update max quantity input
+  quantityInput.max = stock;
+  if (currentQuantity > stock) {
+    currentQuantity = stock;
+    quantityInput.value = currentQuantity;
+  }
+  
+  // Disable tombol increase jika sudah mencapai max
+  increaseQtyBtn.disabled = currentQuantity >= stock;
+}
+
+function renderListings() {
+  let items = currentTab === 'products' ? data.products : data.jasa;
+  
+  // Filter berdasarkan kategori
+  if (currentFilter !== 'Semua') {
+    items = items.filter(item => item.category === currentFilter);
+  }
+  
+  // Filter berdasarkan pencarian
+  if (searchQuery) {
+    const query = searchQuery.toLowerCase();
+    items = items.filter(item => 
+      item.title.toLowerCase().includes(query) || 
+      item.description.toLowerCase().includes(query) ||
+      (item.tags && item.tags.some(tag => tag.includes(query)))
+    );
+  }
+  
+  // Urutkan items
+  items = sortItems(items);
+  
+  // Kosongkan listings
+  listingsEl.innerHTML = '';
+  
+  // Render filter
+  renderFilter();
+  
+  if (items.length === 0) {
+    const emptyState = document.createElement('div');
+    emptyState.className = 'empty-state';
+    emptyState.innerHTML = `
+      <i class="fas fa-search"></i>
+      <h3>Tidak ditemukan</h3>
+      <p>Tidak ada ${currentTab === 'products' ? 'produk' : 'jasa'} yang cocok dengan pencarian Anda.</p>
+      <button id="reset-search-btn">Reset Pencarian</button>
+    `;
+    listingsEl.appendChild(emptyState);
+    
+    document.getElementById('reset-search-btn').addEventListener('click', () => {
+      searchQuery = '';
+      searchInput.value = '';
+      currentFilter = 'Semua';
+      renderListings();
+    });
+    return;
+  }
+  
+  const fragment = document.createDocumentFragment();
+  
+  items.forEach(item => {
+    let displayPrice = '';
+    let displayOriginalPrice = '';
+    let displayDiscount = '';
+    
+    if (item.variants) {
+      const prices = item.variants[0].options.map(opt => opt.price || 0).filter(p => p > 0);
+      const minPrice = prices.length ? Math.min(...prices) : 0;
+      const maxPrice = prices.length ? Math.max(...prices) : 0;
+      
+      displayPrice = minPrice === maxPrice ? 
+        formatPrice(minPrice) : 
+        `${formatPrice(minPrice)} - ${formatPrice(maxPrice)}`;
+    } else {
+      displayPrice = formatPrice(item.price);
+      if (item.originalPrice) {
+        displayOriginalPrice = formatPrice(item.originalPrice);
+        displayDiscount = `${calculateDiscount(item.originalPrice, item.price)}%`;
       }
     }
-
-    // Fungsi render
-    function renderFilter() {
-      const filterContainer = document.querySelector('.filter-container') || document.createElement('div');
-      filterContainer.className = 'filter-container';
-      
-      let filters = ['Semua'];
-      
-      if (currentTab === 'products') {
-        filters = filters.concat(['Makanan', 'Layanan', 'Fashion', 'Hadiah']);
-      } else {
-        filters = filters.concat(['Website', 'Editing', 'Writer', 'Design', 'Photografer']);
-      }
-      
-      filterContainer.innerHTML = '';
-      
-      filters.forEach(filter => {
-        const btn = document.createElement('button');
-        btn.className = `filter-btn ${currentFilter === filter ? 'active' : ''}`;
-        
-        // Tambahkan ikon berdasarkan filter
-        let icon = '';
-        switch(filter) {
-          case 'Makanan': icon = 'fa-utensils'; break;
-          case 'Layanan': icon = 'fa-concierge-bell'; break;
-          case 'Fashion': icon = 'fa-tshirt'; break;
-          case 'Hadiah': icon = 'fa-gift'; break;
-          case 'Website': icon = 'fa-globe'; break;
-          case 'Editing': icon = 'fa-film'; break;
-          case 'Writer': icon = 'fa-pen-fancy'; break;
-          case 'Design': icon = 'fa-paint-brush'; break;
-          case 'Photografer': icon = 'fa-camera'; break;
-          default: icon = 'fa-boxes'; // Untuk 'Semua'
-        }
-        
-        btn.innerHTML = `<i class="fas ${icon}"></i> ${filter}`;
-        btn.addEventListener('click', () => {
-          currentFilter = filter;
-          renderListings();
-          filterContainer.querySelectorAll('.filter-btn').forEach(b => {
-            b.classList.toggle('active', b.textContent.includes(filter));
-          });
-        });
-        filterContainer.appendChild(btn);
-      });
-      
-      if (!document.querySelector('.filter-container')) {
-        listingsEl.insertBefore(filterContainer, listingsEl.firstChild);
-      }
+    
+    const card = document.createElement('div');
+    card.className = 'card';
+    
+    // Badge untuk item baru atau diskon
+    let badge = '';
+    if (item.id.includes('p1') || item.id.includes('j1')) {
+      badge = '<div class="card-badge">Baru!</div>';
+    } else if (item.originalPrice) {
+      badge = `<div class="card-badge">${calculateDiscount(item.originalPrice, item.price)}%</div>`;
     }
-
-    function renderVariantSelection(item) {
-      variantSelectionEl.innerHTML = '';
-      selectedVariants = {};
-      
-      if (!item.variants) return;
-      
-      item.variants.forEach(variant => {
-        const container = document.createElement('div');
-        container.className = 'variant-container';
-        
-        const title = document.createElement('div');
-        title.className = 'variant-title';
-        title.textContent = variant.name;
-        container.appendChild(title);
-        
-        const optionsContainer = document.createElement('div');
-        optionsContainer.className = 'variant-options';
-        
-        variant.options.forEach(option => {
-          const optionEl = document.createElement('div');
-          optionEl.className = 'variant-option';
-          if (option.outOfStock) {
-            optionEl.classList.add('out-of-stock');
-          }
-          
-          optionEl.textContent = option.name;
-          if (option.price) {
-            optionEl.textContent += ` (${formatPrice(option.price)})`;
-          }
-          
-          if (!option.outOfStock) {
-            optionEl.addEventListener('click', () => {
-              selectedVariants[variant.name] = option.name;
-              optionsContainer.querySelectorAll('.variant-option').forEach(el => {
-                el.classList.remove('selected');
-              });
-              optionEl.classList.add('selected');
-              updatePriceDisplay();
-              updateStockInfo();
-            });
-          }
-          
-          // Pilih opsi pertama yang tersedia
-          if (variant.options.indexOf(option) === 0 && !option.outOfStock) {
-            selectedVariants[variant.name] = option.name;
-            optionEl.classList.add('selected');
-          }
-          
-          optionsContainer.appendChild(optionEl);
-        });
-        
-        container.appendChild(optionsContainer);
-        variantSelectionEl.appendChild(container);
-      });
-      
-      updatePriceDisplay();
-      updateStockInfo();
-    }
-
-    function updatePriceDisplay() {
-      if (!modalCurrentItem) return;
-      
-      const price = calculateItemPrice(modalCurrentItem, selectedVariants);
-      modalPrice.textContent = formatPrice(price);
-      
-      // Tampilkan harga asli dan diskon jika ada
-      if (modalCurrentItem.originalPrice) {
-        const originalPrice = modalCurrentItem.variants ? 
-          Math.max(...modalCurrentItem.variants[0].options.map(o => o.price || modalCurrentItem.originalPrice)) : 
-          modalCurrentItem.originalPrice;
-          
-        modalOriginalPrice.textContent = formatPrice(originalPrice);
-        modalOriginalPrice.style.display = 'block';
-        
-        const discount = calculateDiscount(originalPrice, price);
-        modalDiscount.textContent = `${discount}%`;
-        modalDiscount.style.display = 'inline-block';
-      } else {
-        modalOriginalPrice.style.display = 'none';
-        modalDiscount.style.display = 'none';
-      }
-    }
-
-    function updateStockInfo() {
-      if (!modalCurrentItem) return;
-      
-      const stock = getItemStock(modalCurrentItem, selectedVariants);
-      stockInfoEl.textContent = stock > 5 ? 
-        `Stok: ${stock} tersedia` : 
-        stock > 0 ? 
-          `Stok: Hanya ${stock} tersisa!` : 
-          'Stok habis';
-          
-      stockInfoEl.style.color = stock > 5 ? '#93b8f7' : stock > 0 ? '#ffc107' : '#e03131';
-      
-      // Disable tombol tambah jika stok habis
-      modalAddCartBtn.disabled = stock <= 0;
-      
-      // Update max quantity input
-      quantityInput.max = stock;
-      if (currentQuantity > stock) {
-        currentQuantity = stock;
-        quantityInput.value = currentQuantity;
-      }
-      
-      // Disable tombol increase jika sudah mencapai max
-      increaseQtyBtn.disabled = currentQuantity >= stock;
-    }
-
-    function renderListings() {
-      let items = currentTab === 'products' ? data.products : data.jasa;
-      
-      // Filter berdasarkan kategori
-      if (currentFilter !== 'Semua') {
-        items = items.filter(item => item.category === currentFilter);
-      }
-      
-      // Filter berdasarkan pencarian
-      if (searchQuery) {
-        const query = searchQuery.toLowerCase();
-        items = items.filter(item => 
-          item.title.toLowerCase().includes(query) || 
-          item.description.toLowerCase().includes(query) ||
-          (item.tags && item.tags.some(tag => tag.includes(query)))
-        );
-      }
-      
-      // Urutkan items
-      items = sortItems(items);
-      
-      // Kosongkan listings
-      listingsEl.innerHTML = '';
-      
-      // Render filter
-      renderFilter();
-      
-      if (items.length === 0) {
-        const emptyState = document.createElement('div');
-        emptyState.className = 'empty-state';
-        emptyState.innerHTML = `
-          <i class="fas fa-search"></i>
-          <h3>Tidak ditemukan</h3>
-          <p>Tidak ada ${currentTab === 'products' ? 'produk' : 'jasa'} yang cocok dengan pencarian Anda.</p>
-          <button id="reset-search-btn">Reset Pencarian</button>
-        `;
-        listingsEl.appendChild(emptyState);
-        
-        document.getElementById('reset-search-btn').addEventListener('click', () => {
-          searchQuery = '';
-          searchInput.value = '';
-          currentFilter = 'Semua';
-          renderListings();
-        });
-        return;
-      }
-      
-      const fragment = document.createDocumentFragment();
-      
-      items.forEach(item => {
-        let displayPrice = '';
-        let displayOriginalPrice = '';
-        let displayDiscount = '';
-        
-        if (item.variants) {
-          const prices = item.variants[0].options.map(opt => opt.price || 0).filter(p => p > 0);
-          const minPrice = prices.length ? Math.min(...prices) : 0;
-          const maxPrice = prices.length ? Math.max(...prices) : 0;
-          
-          displayPrice = minPrice === maxPrice ? 
-            formatPrice(minPrice) : 
-            `${formatPrice(minPrice)} - ${formatPrice(maxPrice)}`;
-        } else {
-          displayPrice = formatPrice(item.price);
-          if (item.originalPrice) {
-            displayOriginalPrice = formatPrice(item.originalPrice);
-            displayDiscount = `${calculateDiscount(item.originalPrice, item.price)}%`;
-          }
-        }
-        
-        const card = document.createElement('div');
-        card.className = 'card';
-        
-        // Badge untuk item baru atau diskon
-        let badge = '';
-        if (item.id.includes('p1') || item.id.includes('j1')) {
-          badge = '<div class="card-badge">Baru!</div>';
-        } else if (item.originalPrice) {
-          badge = `<div class="card-badge">${calculateDiscount(item.originalPrice, item.price)}%</div>`;
-        }
-        
-        // Tombol wishlist
-        const isWishlisted = isInWishlist(item.id);
-        
-        card.innerHTML = `
-          ${badge}
-          <button class="wishlist-btn ${isWishlisted ? 'active' : ''}" data-id="${item.id}">
-            <i class="fas fa-heart"></i>
-          </button>
-          <div class="image-container">
-            <img src="${item.img}" alt="${item.title}" loading="lazy">
-          </div>
-          <div class="title">${item.title}</div>
-          <div class="category">${item.category}${item.subcategory ? ` • ${item.subcategory}` : ''}</div>
-          <div class="desc">${item.description}</div>
-          <div class="seller">
-            <i class="fas fa-store"></i> ${item.seller}
-            ${item.isVerified ? '<i class="fas fa-check-circle verified-badge" title="Verified Seller"></i>' : ''}
-          </div>
-          <div class="rating">
-            <div class="rating-stars">
-              ${renderStars(item.rating)}
-            </div>
-            <div class="rating-count">(${item.reviewCount})</div>
-          </div>
-          <div class="price-container">
-            <div>
-              ${displayOriginalPrice ? `<span class="original-price">${displayOriginalPrice}</span>` : ''}
-              <span class="price">${displayPrice}</span>
-              ${displayDiscount ? `<span class="discount">${displayDiscount}</span>` : ''}
-            </div>
-            <button class="add-to-cart-btn" data-id="${item.id}">
-              <i class="fas fa-cart-plus"></i>
-            </button>
-          </div>
-        `;
-        
-        card.addEventListener('click', (e) => {
-          // Jangan buka modal jika mengklik tombol wishlist atau add to cart
-          if (!e.target.closest('.wishlist-btn, .add-to-cart-btn')) {
-            openModal(item);
-          }
-        });
-        
-        fragment.appendChild(card);
-      });
-      
-      listingsEl.appendChild(fragment);
-      
-      // Tambahkan event listener untuk tombol wishlist
-      document.querySelectorAll('.wishlist-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const itemId = btn.getAttribute('data-id');
-          const isActive = toggleWishlist(itemId);
-          
-          btn.classList.toggle('active', isActive);
-          btn.innerHTML = `<i class="fas fa-heart"></i>`;
-          
-          showNotification(
-            isActive ? 
-              'Ditambahkan ke wishlist' : 
-              'Dihapus dari wishlist',
-            false
-          );
-        });
-      });
-      
-      // Tambahkan event listener untuk tombol add to cart
-      document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const itemId = btn.getAttribute('data-id');
-          const item = [...data.products, ...data.jasa].find(i => i.id === itemId);
-          
-          if (item) {
-            if (item.variants) {
-              openModal(item);
-            } else {
-              addToCartDirectly(item);
-            }
-          }
-        });
-      });
-    }
-
-    function renderStars(rating) {
-      let stars = '';
-      const fullStars = Math.floor(rating);
-      const hasHalfStar = rating % 1 >= 0.5;
-      
-      for (let i = 1; i <= 5; i++) {
-        if (i <= fullStars) {
-          stars += '<i class="fas fa-star"></i>';
-        } else if (i === fullStars + 1 && hasHalfStar) {
-          stars += '<i class="fas fa-star-half-alt"></i>';
-        } else {
-          stars += '<i class="far fa-star"></i>';
-        }
-      }
-      
-      return stars;
-    }
-
-    function renderCart() {
-      cartItemsEl.innerHTML = '';
-      const entries = Object.values(cart);
-      
-      if (entries.length === 0) {
-        cartItemsEl.innerHTML = `
-          <div style="text-align:center; padding:40px 20px;">
-            <i class="fas fa-shopping-cart" style="font-size:2rem; color:#4171d6; margin-bottom:15px;"></i>
-            <p>Keranjang belanja kosong</p>
-          </div>
-        `;
-        cartTotalEl.innerHTML = '<span>Total:</span><span>Rp 0</span>';
-        cartCheckoutBtn.disabled = true;
-        currentSeller = null;
-        return;
-      }
-      
-      cartCheckoutBtn.disabled = false;
-      const fragment = document.createDocumentFragment();
-      let total = 0;
-      
-      entries.forEach(item => {
-        const itemTotal = item.price * item.qty;
-        total += itemTotal;
-        
-        let variantString = '';
-        if (item.selectedVariants) {
-          variantString = Object.entries(item.selectedVariants)
-            .map(([key, value]) => `${key}: ${value}`)
-            .join(', ');
-        }
-        
-        const cartItemId = generateCartItemId(item, item.selectedVariants || {});
-        
-        const div = document.createElement('div');
-        div.className = 'cart-item';
-        div.innerHTML = `
-          <img src="${item.img}" class="cart-item-image" alt="${item.title}">
-          <div class="cart-item-info">
-            <div class="cart-item-title">${item.title}</div>
-            ${variantString ? `<div class="cart-item-variant">${variantString}</div>` : ''}
-            <div class="cart-item-price">${formatPrice(item.price)}</div>
-          </div>
-          <div class="cart-item-qty">
-            <button class="cart-item-qty-btn" data-id="${cartItemId}" data-action="decrease">-</button>
-            <input type="number" min="1" value="${item.qty}" class="cart-item-qty-input" data-id="${cartItemId}">
-            <button class="cart-item-qty-btn" data-id="${cartItemId}" data-action="increase">+</button>
-          </div>
-          <button class="cart-item-remove" data-id="${cartItemId}">
-            <i class="fas fa-times"></i>
-          </button>
-        `;
-        
-        fragment.appendChild(div);
-      });
-      
-      cartItemsEl.appendChild(fragment);
-      cartTotalEl.innerHTML = `<span>Total:</span><span>${formatPrice(total)}</span>`;
-      updateCartBadge();
-      
-      // Tambahkan event listener untuk tombol quantity
-      document.querySelectorAll('.cart-item-qty-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const id = e.currentTarget.getAttribute('data-id');
-          const action = e.currentTarget.getAttribute('data-action');
-          
-          if (action === 'decrease') {
-            decreaseQty(id);
-          } else {
-            increaseQty(id);
-          }
-        });
-      });
-      
-      // Tambahkan event listener untuk input quantity
-      document.querySelectorAll('.cart-item-qty-input').forEach(input => {
-        input.addEventListener('change', (e) => {
-          const id = e.target.getAttribute('data-id');
-          const newQty = parseInt(e.target.value) || 1;
-          
-          if (cart[id]) {
-            cart[id].qty = newQty;
-            if (cart[id].qty <= 0) {
-              delete cart[id];
-            }
-            renderCart();
-          }
-        });
-      });
-      
-      // Tambahkan event listener untuk tombol remove
-      document.querySelectorAll('.cart-item-remove').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const id = e.currentTarget.getAttribute('data-id');
-          delete cart[id];
-          renderCart();
-          showNotification('Item dihapus dari keranjang', false);
-        });
-      });
-    }
-
-    // Fungsi utama
-    function openModal(item) {
-      modalCurrentItem = item;
-      modalTitle.textContent = item.title;
-      modalDesc.textContent = item.description;
-      modalSeller.innerHTML = `
+    
+    // Tombol wishlist
+    const isWishlisted = isInWishlist(item.id);
+    
+    card.innerHTML = `
+      ${badge}
+      <button class="wishlist-btn ${isWishlisted ? 'active' : ''}" data-id="${item.id}">
+        <i class="fas fa-heart"></i>
+      </button>
+      <div class="image-container">
+        <img src="${item.img}" alt="${item.title}" loading="lazy">
+      </div>
+      <div class="title">${item.title}</div>
+      <div class="category">${item.category}${item.subcategory ? ` • ${item.subcategory}` : ''}</div>
+      <div class="desc">${item.description}</div>
+      <div class="seller">
         <i class="fas fa-store"></i> ${item.seller}
         ${item.isVerified ? '<i class="fas fa-check-circle verified-badge" title="Verified Seller"></i>' : ''}
-      `;
-      modalImage.src = item.img;
-      modalImage.alt = item.title;
+      </div>
+      <div class="rating">
+        <div class="rating-stars">
+          ${renderStars(item.rating)}
+        </div>
+        <div class="rating-count">(${item.reviewCount})</div>
+      </div>
+      <div class="price-container">
+        <div>
+          ${displayOriginalPrice ? `<span class="original-price">${displayOriginalPrice}</span>` : ''}
+          <span class="price">${displayPrice}</span>
+          ${displayDiscount ? `<span class="discount">${displayDiscount}</span>` : ''}
+        </div>
+        <button class="add-to-cart-btn" data-id="${item.id}">
+          <i class="fas fa-cart-plus"></i>
+        </button>
+      </div>
+    `;
+    
+    card.addEventListener('click', (e) => {
+      // Jangan buka modal jika mengklik tombol wishlist atau add to cart
+      if (!e.target.closest('.wishlist-btn, .add-to-cart-btn')) {
+        openModal(item);
+      }
+    });
+    
+    fragment.appendChild(card);
+  });
+  
+  listingsEl.appendChild(fragment);
+  
+  // Tambahkan event listener untuk tombol wishlist
+  document.querySelectorAll('.wishlist-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const itemId = btn.getAttribute('data-id');
+      const isActive = toggleWishlist(itemId);
+      
+      btn.classList.toggle('active', isActive);
+      btn.innerHTML = `<i class="fas fa-heart"></i>`;
+      
+      showNotification(
+        isActive ? 
+          'Ditambahkan ke wishlist' : 
+          'Dihapus dari wishlist',
+        false
+      );
+    });
+  });
+  
+  // Tambahkan event listener untuk tombol add to cart
+  document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const itemId = btn.getAttribute('data-id');
+      const item = [...data.products, ...data.jasa].find(i => i.id === itemId);
+      
+      if (item) {
+        if (item.variants) {
+          openModal(item);
+        } else {
+          addToCartDirectly(item);
+        }
+      }
+    });
+  });
+}
 
-     // GALLERY SYSTEM
-  const galleryHTML = `
-    <div class="gallery-container">
-      ${item.media?.map((media, index) => `
-        <${media.type === 'video' ? 'video controls' : 'img'} 
-          src="${media.url}" 
-          class="gallery-slide ${index === 0 ? 'active' : ''}" 
-          alt="${item.title} ${index + 1}"
-        >
-      `).join('')}
-      <div class="gallery-controls">
-        <button class="gallery-btn" id="prev-slide">❮</button>
-        <button class="gallery-btn" id="next-slide">❯</button>
+function renderStars(rating) {
+  let stars = '';
+  const fullStars = Math.floor(rating);
+  const hasHalfStar = rating % 1 >= 0.5;
+  
+  for (let i = 1; i <= 5; i++) {
+    if (i <= fullStars) {
+      stars += '<i class="fas fa-star"></i>';
+    } else if (i === fullStars + 1 && hasHalfStar) {
+      stars += '<i class="fas fa-star-half-alt"></i>';
+    } else {
+      stars += '<i class="far fa-star"></i>';
+    }
+  }
+  
+  return stars;
+}
+
+function renderCart() {
+  cartItemsEl.innerHTML = '';
+  const entries = Object.values(cart);
+  
+  if (entries.length === 0) {
+    cartItemsEl.innerHTML = `
+      <div style="text-align:center; padding:40px 20px;">
+        <i class="fas fa-shopping-cart" style="font-size:2rem; color:#4171d6; margin-bottom:15px;"></i>
+        <p>Keranjang belanja kosong</p>
       </div>
-      <div class="gallery-dots">
-        ${item.media?.map((_, index) => `
-          <span class="dot ${index === 0 ? 'active' : ''}" data-index="${index}"></span>`).join('')}
+    `;
+    cartTotalEl.innerHTML = '<span>Total:</span><span>Rp 0</span>';
+    cartCheckoutBtn.disabled = true;
+    currentSeller = null;
+    return;
+  }
+  
+  cartCheckoutBtn.disabled = false;
+  const fragment = document.createDocumentFragment();
+  let total = 0;
+  
+  entries.forEach(item => {
+    const itemTotal = item.price * item.qty;
+    total += itemTotal;
+    
+    let variantString = '';
+    if (item.selectedVariants) {
+      variantString = Object.entries(item.selectedVariants)
+        .map(([key, value]) => `${key}: ${value}`)
+        .join(', ');
+    }
+    
+    const cartItemId = generateCartItemId(item, item.selectedVariants || {});
+    
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.innerHTML = `
+      <img src="${item.img}" class="cart-item-image" alt="${item.title}">
+      <div class="cart-item-info">
+        <div class="cart-item-title">${item.title}</div>
+        ${variantString ? `<div class="cart-item-variant">${variantString}</div>` : ''}
+        <div class="cart-item-price">${formatPrice(item.price)}</div>
       </div>
-    </div>
+      <div class="cart-item-qty">
+        <button class="cart-item-qty-btn" data-id="${cartItemId}" data-action="decrease">-</button>
+        <input type="number" min="1" value="${item.qty}" class="cart-item-qty-input" data-id="${cartItemId}">
+        <button class="cart-item-qty-btn" data-id="${cartItemId}" data-action="increase">+</button>
+      </div>
+      <button class="cart-item-remove" data-id="${cartItemId}">
+        <i class="fas fa-times"></i>
+      </button>
+    `;
+    
+    fragment.appendChild(div);
+  });
+  
+  cartItemsEl.appendChild(fragment);
+  cartTotalEl.innerHTML = `<span>Total:</span><span>${formatPrice(total)}</span>`;
+  updateCartBadge();
+  
+  // Tambahkan event listener untuk tombol quantity
+  document.querySelectorAll('.cart-item-qty-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const id = e.currentTarget.getAttribute('data-id');
+      const action = e.currentTarget.getAttribute('data-action');
+      
+      if (action === 'decrease') {
+        decreaseQty(id);
+      } else {
+        increaseQty(id);
+      }
+    });
+  });
+  
+  // Tambahkan event listener untuk input quantity
+  document.querySelectorAll('.cart-item-qty-input').forEach(input => {
+    input.addEventListener('change', (e) => {
+      const id = e.target.getAttribute('data-id');
+      const newQty = parseInt(e.target.value) || 1;
+      
+      if (cart[id]) {
+        cart[id].qty = newQty;
+        if (cart[id].qty <= 0) {
+          delete cart[id];
+        }
+        renderCart();
+      }
+    });
+  });
+  
+  // Tambahkan event listener untuk tombol remove
+  document.querySelectorAll('.cart-item-remove').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const id = e.currentTarget.getAttribute('data-id');
+      delete cart[id];
+      renderCart();
+      showNotification('Item dihapus dari keranjang', false);
+    });
+  });
+}
+
+// Fungsi untuk galeri
+function createGallery(mediaItems) {
+  const galleryContainer = document.createElement('div');
+  galleryContainer.className = 'gallery-container';
+  
+  // Create slides
+  mediaItems.forEach((media, index) => {
+    const slide = document.createElement(media.type === 'video' ? 'video' : 'img');
+    slide.className = 'gallery-slide';
+    slide.src = media.url;
+    slide.alt = `Product media ${index + 1}`;
+    if (media.type === 'video') {
+      slide.controls = true;
+    }
+    galleryContainer.appendChild(slide);
+  });
+  
+  // Create controls
+  const controls = document.createElement('div');
+  controls.className = 'gallery-controls';
+  controls.innerHTML = `
+    <button class="gallery-btn" id="prev-slide"><i class="fas fa-chevron-left"></i></button>
+    <button class="gallery-btn" id="next-slide"><i class="fas fa-chevron-right"></i></button>
   `;
+  galleryContainer.appendChild(controls);
+  
+  // Create dots
+  const dotsContainer = document.createElement('div');
+  dotsContainer.className = 'gallery-dots';
+  mediaItems.forEach((_, index) => {
+    const dot = document.createElement('span');
+    dot.className = 'dot';
+    dot.dataset.index = index;
+    dotsContainer.appendChild(dot);
+  });
+  galleryContainer.appendChild(dotsContainer);
+  
+  // Insert gallery before modal description
+  modalDesc.insertAdjacentElement('beforebegin', galleryContainer);
+  
+  // Initialize gallery
+  initGallery();
+}
+
+function initGallery() {
+  const slides = document.querySelectorAll('.gallery-slide');
+  const dots = document.querySelectorAll('.dot');
+  
+  // Show first slide
+  showSlide(0);
+  
+  // Add event listeners for controls
+  document.getElementById('prev-slide')?.addEventListener('click', () => {
+    currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+    showSlide(currentSlideIndex);
+  });
+  
+  document.getElementById('next-slide')?.addEventListener('click', () => {
+    currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+    showSlide(currentSlideIndex);
+  });
+  
+  // Add event listeners for dots
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      currentSlideIndex = index;
+      showSlide(currentSlideIndex);
+    });
+  });
+}
+
+function showSlide(index) {
+  const slides = document.querySelectorAll('.gallery-slide');
+  const dots = document.querySelectorAll('.dot');
+  
+  // Hide all slides and pause videos
+  slides.forEach((slide, i) => {
+    slide.style.display = 'none';
+    if (slide.tagName === 'VIDEO') {
+      slide.pause();
+    }
+  });
+  
+  // Show selected slide
+  slides[index].style.display = 'block';
+  
+  // Update dots
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === index);
+  });
+  
+  currentSlideIndex = index;
+}
+
+// Fungsi utama
+function openModal(item) {
+  modalCurrentItem = item;
+  modalTitle.textContent = item.title;
+  modalDesc.textContent = item.description;
+  modalSeller.innerHTML = `
+    <i class="fas fa-store"></i> ${item.seller}
+    ${item.isVerified ? '<i class="fas fa-check-circle verified-badge" title="Verified Seller"></i>' : ''}
+  `;
+  
+  // Clear previous modal image/gallery
+  const existingGallery = document.querySelector('.gallery-container');
+  if (existingGallery) existingGallery.remove();
+  
+  // Create gallery if media exists, otherwise use single image
+  if (item.media && item.media.length > 0) {
+    createGallery(item.media);
+  } else {
+    modalImage.src = item.img;
+    modalImage.alt = item.title;
+           modalImage.style.display = 'block';
+      }
       
       // Render rating
       const ratingStars = document.querySelector('.modal-rating-stars');
@@ -2069,6 +2169,10 @@
     }
 
     function closeModal() {
+      // Pause any playing videos
+      const videos = document.querySelectorAll('.gallery-slide video');
+      videos.forEach(video => video.pause());
+      
       modal.classList.remove('active');
       modalCurrentItem = null;
     }
@@ -2238,7 +2342,7 @@
       const firstItem = Object.values(cart)[0];
       const phoneNumber = firstItem.sellerPhone;
       const message = generateWhatsAppMessage();
-            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
       
       // Show loading state on checkout button
       const originalText = cartCheckoutBtn.innerHTML;
@@ -2309,164 +2413,10 @@
       );
     });
 
-    // ===== GALLERY SYSTEM =====
-let currentSlide = 0;
-let slideInterval;
-
-function initGallery(mediaItems) {
-  const galleryContainer = document.createElement('div');
-  galleryContainer.className = 'gallery-container';
-  
-  galleryContainer.innerHTML = `
-    ${mediaItems.map((media, index) => `
-      <${media.type === 'video' ? 'video controls' : 'img'} 
-        src="${media.url}" 
-        class="gallery-slide ${index === 0 ? 'active' : ''}" 
-        alt="Gallery item ${index + 1}"
-      >
-    `).join('')}
-    <div class="gallery-controls">
-      <button class="gallery-btn" id="prev-slide">❮</button>
-      <button class="gallery-btn" id="next-slide">❯</button>
-    </div>
-    <div class="gallery-dots">
-      ${mediaItems.map((_, index) => `
-        <span class="dot ${index === 0 ? 'active' : ''}" data-index="${index}"></span>
-      `).join('')}
-    </div>
-  `;
-  
-  // Insert gallery before modal description
-  modalDesc.insertAdjacentElement('beforebegin', galleryContainer);
-  
-  // Start auto-play if there are multiple items
-  if (mediaItems.length > 1) {
-    startAutoPlay();
-  }
-}
-
-function nextSlide() {
-  const slides = document.querySelectorAll('.gallery-slide');
-  currentSlide = (currentSlide + 1) % slides.length;
-  updateGallery();
-}
-
-function prevSlide() {
-  const slides = document.querySelectorAll('.gallery-slide');
-  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-  updateGallery();
-}
-
-function goToSlide(index) {
-  currentSlide = index;
-  updateGallery();
-}
-
-function updateGallery() {
-  const slides = document.querySelectorAll('.gallery-slide');
-  const dots = document.querySelectorAll('.dot');
-  
-  slides.forEach((slide, i) => {
-    slide.classList.toggle('active', i === currentSlide);
-    if (slide.tagName === 'VIDEO' && !slide.classList.contains('active')) {
-      slide.pause();
-    }
-  });
-  
-  dots.forEach((dot, i) => {
-    dot.classList.toggle('active', i === currentSlide);
-  });
-}
-
-function startAutoPlay() {
-  clearInterval(slideInterval);
-  slideInterval = setInterval(nextSlide, 3000);
-}
-
-function stopAutoPlay() {
-  clearInterval(slideInterval);
-}
-
-// Update the openModal function
-function openModal(item) {
-  modalCurrentItem = item;
-  modalTitle.textContent = item.title;
-  modalDesc.textContent = item.description;
-  modalSeller.innerHTML = `
-    <i class="fas fa-store"></i> ${item.seller}
-    ${item.isVerified ? '<i class="fas fa-check-circle verified-badge" title="Verified Seller"></i>' : ''}
-  `;
-  
-  // Clear previous gallery if exists
-  const existingGallery = document.querySelector('.gallery-container');
-  if (existingGallery) {
-    existingGallery.remove();
-  }
-  
-  // Set main image (fallback to first media item if no img property)
-  modalImage.src = item.img || (item.media?.length ? item.media[0].url : '');
-  modalImage.alt = item.title;
-  
-  // Initialize gallery if media exists
-  if (item.media?.length) {
-    initGallery(item.media);
-  }
-  
-  currentQuantity = 1;
-  quantityInput.value = currentQuantity;
-  
-  // Update wishlist button
-  modalWishlistBtn.classList.toggle('active', isInWishlist(item.id));
-  modalWishlistBtn.innerHTML = `
-    <i class="${isInWishlist(item.id) ? 'fas' : 'far'} fa-heart"></i>
-  `;
-  
-  renderVariantSelection(item);
-  modalAddCartBtn.textContent = `Tambah ${currentTab === 'products' ? 'Produk' : 'Jasa'} ke Keranjang`;
-  modal.classList.add('active');
-}
-
-// Update the closeModal function
-function closeModal() {
-  stopAutoPlay();
-  modal.classList.remove('active');
-  modalCurrentItem = null;
-  
-  // Clear gallery when modal closes
-  const gallery = document.querySelector('.gallery-container');
-  if (gallery) gallery.remove();
-}
-
-// Update modal event listeners
-modal.addEventListener('click', (e) => {
-  // Close modal if clicking on backdrop
-  if (e.target === modal) {
-    closeModal();
-    return;
-  }
-  
-  // Handle gallery controls
-  if (e.target.id === 'next-slide') {
-    e.stopPropagation();
-    nextSlide();
-  } else if (e.target.id === 'prev-slide') {
-    e.stopPropagation();
-    prevSlide();
-  } else if (e.target.classList.contains('dot')) {
-    e.stopPropagation();
-    const index = parseInt(e.target.getAttribute('data-index'));
-    goToSlide(index);
-  }
-});
-
-    
-
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modal.classList.contains('active')) {
         closeModal();
       }
-
-     
     });
 
     cartToggleBtn.addEventListener('click', toggleCartPanel);
@@ -2531,3 +2481,8 @@ modal.addEventListener('click', (e) => {
 
 </body>
 </html>
+   
+
+
+
+         
