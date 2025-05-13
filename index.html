@@ -1074,7 +1074,7 @@
     <!-- Modal -->
     <div id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-content">
-        <button class="modal-close" aria-label="Close modal">&times;</button>
+        <button class="modal-close" aria-label="Close modal">×</button>
         <div class="modal-header" id="modal-title">Product Title</div>
         <img id="modal-image" class="modal-image" alt="Product image">
         <div class="modal-desc" id="modal-desc">Product description...</div>
@@ -1317,7 +1317,7 @@
       originalPrice: 2000000,
       seller: "Fira HIMA BISA",
       sellerPhone: "6281112223333",
-      img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?&auto=format&fit=crop&w=400&q=60",
+      img: "https://images.unsplash.com/photo-1498050108023-c894fdcc538d?&auto=format&fit=crop&w=400&q=60",
       rating: 4.9,
       reviewCount: 37,
       isVerified: true,
@@ -1568,14 +1568,14 @@ function sortItems(items) {
       return [...items].sort((a, b) => b.id.localeCompare(a.id));
     case 'price-low':
       return [...items].sort((a, b) => {
-        const priceA = a.price || (a.variants ? Math.min(...a.variants[0].options.map(o => o.price || 0)) : 0;
-        const priceB = b.price || (b.variants ? Math.min(...b.variants[0].options.map(o => o.price || 0)) : 0;
+        const priceA = a.price || (a.variants ? Math.min(...a.variants[0].options.map(o => o.price || 0)) : 0);
+        const priceB = b.price || (b.variants ? Math.min(...b.variants[0].options.map(o => o.price || 0)) : 0);
         return priceA - priceB;
       });
     case 'price-high':
       return [...items].sort((a, b) => {
-        const priceA = a.price || (a.variants ? Math.max(...a.variants[0].options.map(o => o.price || 0)) : 0;
-        const priceB = b.price || (b.variants ? Math.max(...b.variants[0].options.map(o => o.price || 0)) : 0;
+        const priceA = a.price || (a.variants ? Math.max(...a.variants[0].options.map(o => o.price || 0)) : 0);
+        const priceB = b.price || (b.variants ? Math.max(...b.variants[0].options.map(o => o.price || 0)) : 0);
         return priceB - priceA;
       });
     case 'rating':
@@ -1746,14 +1746,13 @@ function updateStockInfo() {
 }
 
 function renderListings() {
+  console.log('searchQuery:', searchQuery); // Debug log
   let items = currentTab === 'products' ? data.products : data.jasa;
   
-  // Filter berdasarkan kategori
   if (currentFilter !== 'Semua') {
     items = items.filter(item => item.category === currentFilter);
   }
   
-  // Filter berdasarkan pencarian
   if (searchQuery) {
     const query = searchQuery.toLowerCase();
     items = items.filter(item => 
@@ -1763,7 +1762,8 @@ function renderListings() {
     );
   }
   
-  // Urutkan items
+  console.log('Items after filter:', items); // Debug log
+  
   items = sortItems(items);
   
   // Kosongkan listings
@@ -1773,6 +1773,7 @@ function renderListings() {
   renderFilter();
   
   if (items.length === 0) {
+    console.log('No items found, showing empty state'); // Debug log
     const emptyState = document.createElement('div');
     emptyState.className = 'empty-state';
     emptyState.innerHTML = `
@@ -2144,345 +2145,290 @@ function openModal(item) {
   } else {
     modalImage.src = item.img;
     modalImage.alt = item.title;
-           modalImage.style.display = 'block';
-      }
-      
-      // Render rating
-      const ratingStars = document.querySelector('.modal-rating-stars');
-      if (ratingStars) {
-        ratingStars.innerHTML = renderStars(item.rating);
-        document.querySelector('.modal-rating-count').textContent = `(${item.reviewCount} reviews)`;
-      }
-      
-      currentQuantity = 1;
-      quantityInput.value = currentQuantity;
-      
-      // Update wishlist button
-      modalWishlistBtn.classList.toggle('active', isInWishlist(item.id));
-      modalWishlistBtn.innerHTML = `
-        <i class="${isInWishlist(item.id) ? 'fas' : 'far'} fa-heart"></i>
-      `;
-      
-      renderVariantSelection(item);
-      modalAddCartBtn.textContent = `Tambah ${currentTab === 'products' ? 'Produk' : 'Jasa'} ke Keranjang`;
-      modal.classList.add('active');
+    modalImage.style.display = 'block';
+  }
+  
+  // Render rating
+  const ratingStars = document.querySelector('.modal-rating-stars');
+  if (ratingStars) {
+    ratingStars.innerHTML = renderStars(item.rating);
+    document.querySelector('.modal-rating-count').textContent = `(${item.reviewCount} reviews)`;
+  }
+  
+  currentQuantity = 1;
+  quantityInput.value = currentQuantity;
+  
+  // Update wishlist button
+  modalWishlistBtn.classList.toggle('active', isInWishlist(item.id));
+  modalWishlistBtn.innerHTML = `
+    <i class="${isInWishlist(item.id) ? 'fas' : 'far'} fa-heart"></i>
+  `;
+  
+  renderVariantSelection(item);
+  modalAddCartBtn.textContent = `Tambah ${currentTab === 'products' ? 'Produk' : 'Jasa'} ke Keranjang`;
+  modal.classList.add('active');
+}
+
+function closeModal() {
+  // Pause any playing videos
+  const videos = document.querySelectorAll('.gallery-slide video');
+  videos.forEach(video => video.pause());
+  
+  modal.classList.remove('active');
+  modalCurrentItem = null;
+}
+
+function addToCartDirectly(item) {
+  if (Object.keys(cart).length === 0) {
+    currentSeller = item.seller;
+  }
+  
+  if (item.seller !== currentSeller) {
+    showNotification("Maaf, seller berbeda. Silakan checkout satu per satu.");
+    return;
+  }
+  
+  const cartItemId = item.id;
+  const price = item.price;
+  
+  if (cart[cartItemId]) {
+    cart[cartItemId].qty += 1;
+  } else {
+    cart[cartItemId] = {
+      ...item,
+      price: price,
+      qty: 1
+    };
+  }
+  
+  renderCart();
+  showCartPanel();
+  showNotification('Ditambahkan ke keranjang', false);
+}
+
+function addToCart() {
+  if (!modalCurrentItem) return;
+  
+  if (Object.keys(cart).length === 0) {
+    currentSeller = modalCurrentItem.seller;
+  }
+
+ if (modalCurrentItem.seller !== currentSeller) {
+  showNotification("Maaf, seller berbeda. Silakan checkout satu per satu.");
+  return;
+}
+
+if (modalCurrentItem.variants) {
+  let allVariantsSelected = true;
+  modalCurrentItem.variants.forEach(variant => {
+    if (!selectedVariants[variant.name]) {
+      allVariantsSelected = false;
     }
+  });
 
-    function closeModal() {
-      // Pause any playing videos
-      const videos = document.querySelectorAll('.gallery-slide video');
-      videos.forEach(video => video.pause());
-      
-      modal.classList.remove('active');
-      modalCurrentItem = null;
-    }
+  if (!allVariantsSelected) {
+    showNotification("Pilih semua varian terlebih dahulu.");
+    return;
+  }
+}
 
-    function addToCartDirectly(item) {
-      if (Object.keys(cart).length === 0) {
-        currentSeller = item.seller;
-      }
-      
-      if (item.seller !== currentSeller) {
-        showNotification("Maaf, seller berbeda. Silakan checkout satu per satu.");
-        return;
-      }
-      
-      const cartItemId = item.id;
-      const price = item.price;
-      
-      if (cart[cartItemId]) {
-        cart[cartItemId].qty += 1;
-      } else {
-        cart[cartItemId] = {
-          ...item,
-          price: price,
-          qty: 1
-        };
-      }
-      
-      renderCart();
-      showCartPanel();
-      showNotification('Ditambahkan ke keranjang', false);
-    }
+const cartItemId = generateCartItemId(modalCurrentItem, selectedVariants);
+const price = calculateItemPrice(modalCurrentItem, selectedVariants);
+const stock = getItemStock(modalCurrentItem, selectedVariants);
 
-    function addToCart() {
-      if (!modalCurrentItem) return;
-      
-      if (Object.keys(cart).length === 0) {
-        currentSeller = modalCurrentItem.seller;
-      }
-      
-      if (modalCurrentItem.seller !== currentSeller) {
-        showNotification("Maaf, seller berbeda. Silakan checkout satu per satu.");
-        return;
-      }
-      
-      if (modalCurrentItem.variants) {
-        let allVariantsSelected = true;
-        modalCurrentItem.variants.forEach(variant => {
-          if (!selectedVariants[variant.name]) {
-            allVariantsSelected = false;
-          }
-        });
-        
-        if (!allVariantsSelected) {
-          showNotification("Silakan pilih semua varian yang tersedia");
-          return;
-        }
-      }
-      
-      const cartItemId = generateCartItemId(modalCurrentItem, selectedVariants);
-      const price = calculateItemPrice(modalCurrentItem, selectedVariants);
-      const stock = getItemStock(modalCurrentItem, selectedVariants);
-      
-      if (stock <= 0) {
-        showNotification("Maaf, stok produk ini habis");
-        return;
-      }
-      
-      if (currentQuantity > stock) {
-        showNotification(`Maaf, stok hanya tersedia ${stock} item`);
-        return;
-      }
-      
-      if (cart[cartItemId]) {
-        cart[cartItemId].qty += currentQuantity;
-      } else {
-        cart[cartItemId] = {
-          ...modalCurrentItem,
-          selectedVariants: {...selectedVariants},
-          price: price,
-          qty: currentQuantity
-        };
-      }
-      
-      closeModal();
-      renderCart();
-      showCartPanel();
-      showNotification('Ditambahkan ke keranjang', false);
-    }
+if (currentQuantity > stock) {
+  showNotification("Jumlah melebihi stok yang tersedia.");
+  return;
+}
 
-    function increaseQty(id) {
-      if (cart[id]) {
-        // Cek stok tersedia
-        const item = cart[id];
-        const stock = getItemStock(item, item.selectedVariants || {});
-        
-        if (item.qty >= stock) {
-          showNotification(`Maaf, stok hanya tersedia ${stock} item`);
-          return;
-        }
-        
-        cart[id].qty++;
-        renderCart();
-      }
-    }
+if (cart[cartItemId]) {
+  if (cart[cartItemId].qty + currentQuantity > stock) {
+    showNotification("Jumlah melebihi stok yang tersedia.");
+    return;
+  }
+  cart[cartItemId].qty += currentQuantity;
+} else {
+  cart[cartItemId] = {
+    ...modalCurrentItem,
+    price: price,
+    qty: currentQuantity,
+    selectedVariants: { ...selectedVariants }
+  };
+}
 
-    function decreaseQty(id) {
-      if (cart[id]) {
-        cart[id].qty--;
-        if (cart[id].qty <= 0) {
-          delete cart[id];
-        }
-        renderCart();
-      }
-    }
+renderCart();
+closeModal();
+showCartPanel();
+showNotification('Ditambahkan ke keranjang', false);
+}
 
-    function toggleCartPanel() {
-      cartPanel.classList.toggle('active');
-    }
+function decreaseQty(id) {
+if (cart[id]) {
+  cart[id].qty -= 1;
+  if (cart[id].qty <= 0) {
+    delete cart[id];
+  }
+  renderCart();
+}
+}
 
-    function showCartPanel() {
-      cartPanel.classList.add('active');
-    }
-
-    function hideCartPanel() {
-      cartPanel.classList.remove('active');
-    }
-
-    function clearCart() {
-      if (Object.keys(cart).length === 0) return;
-      
-      if (confirm('Apakah Anda yakin ingin mengosongkan keranjang?')) {
-        cart = {};
-        currentSeller = null;
-        renderCart();
-        showNotification('Keranjang dikosongkan', false);
-      }
-    }
-
-    function generateWhatsAppMessage() {
-      let message = "Halo! Saya ingin memesan:\n\n";
-      
-      Object.values(cart).forEach(item => {
-        message += `*${item.title}*`;
-        
-        if (item.selectedVariants) {
-          const variantText = Object.entries(item.selectedVariants)
-            .map(([key, value]) => `${key}: ${value}`)
-            .join(', ');
-          message += ` (${variantText})`;
-        }
-        
-        message += ` - ${item.qty} x ${formatPrice(item.price)}\n`;
-      });
-      
-      const total = Object.values(cart).reduce((acc, item) => acc + (item.price * item.qty), 0);
-      message += `\n*Total: ${formatPrice(total)}*\n\nTerima kasih!`;
-      
-      return encodeURIComponent(message);
-    }
-
-    function checkout() {
-      if (Object.keys(cart).length === 0) {
-        showNotification("Keranjang kosong!");
-        return;
-      }
-      
-      const firstItem = Object.values(cart)[0];
-      const phoneNumber = firstItem.sellerPhone;
-      const message = generateWhatsAppMessage();
-      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-      
-      // Show loading state on checkout button
-      const originalText = cartCheckoutBtn.innerHTML;
-      cartCheckoutBtn.innerHTML = `<span class="spinner"></span> Memproses...`;
-      cartCheckoutBtn.disabled = true;
-      
-      // Simulate processing delay
-      setTimeout(() => {
-        window.open(whatsappUrl, '_blank');
-        
-        // Reset checkout button
-        cartCheckoutBtn.innerHTML = originalText;
-        cartCheckoutBtn.disabled = false;
-        
-        // Clear cart after successful checkout
-        cart = {};
-        renderCart();
-        hideCartPanel();
-        
-        showNotification('Pesanan berhasil diproses!', false);
-      }, 1000);
-    }
-
-    function switchTab(tab) {
-      if (tab === currentTab) return;
-      currentTab = tab;
-      currentFilter = 'Semua';
-      
-      tabs.products.classList.toggle('active', tab === 'products');
-      tabs.jasa.classList.toggle('active', tab === 'jasa');
-      
-      tabs.products.setAttribute('aria-selected', tab === 'products');
-      tabs.jasa.setAttribute('aria-selected', tab === 'jasa');
-      
-      renderListings();
-    }
-
-    // Event Listeners
-    tabs.products.addEventListener('click', () => switchTab('products'));
-    tabs.jasa.addEventListener('click', () => switchTab('jasa'));
-
-    searchInput.addEventListener('input', (e) => {
-      searchQuery = e.target.value.trim().toLowerCase();
-      renderListings();
-    });
-
-    sortSelect.addEventListener('change', (e) => {
-      sortBy = e.target.value;
-      renderListings();
-    });
-
-    modalCloseBtn.addEventListener('click', closeModal);
-    modalAddCartBtn.addEventListener('click', addToCart);
-    modalWishlistBtn.addEventListener('click', () => {
-      if (!modalCurrentItem) return;
-      
-      const isActive = toggleWishlist(modalCurrentItem.id);
-      modalWishlistBtn.classList.toggle('active', isActive);
-      modalWishlistBtn.innerHTML = `
-        <i class="${isActive ? 'fas' : 'far'} fa-heart"></i>
-      `;
-      
-      showNotification(
-        isActive ? 
-          'Ditambahkan ke wishlist' : 
-          'Dihapus dari wishlist',
-        false
-      );
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('active')) {
-        closeModal();
-      }
-    });
-
-    cartToggleBtn.addEventListener('click', toggleCartPanel);
-    cartCheckoutBtn.addEventListener('click', checkout);
-    clearCartBtn.addEventListener('click', clearCart);
-
-    quantityInput.addEventListener('change', (e) => {
-      const value = parseInt(e.target.value);
-      currentQuantity = isNaN(value) || value < 1 ? 1 : value;
-      quantityInput.value = currentQuantity;
-      
-      // Update tombol increase berdasarkan stok
-      if (modalCurrentItem) {
-        const stock = getItemStock(modalCurrentItem, selectedVariants);
-        increaseQtyBtn.disabled = currentQuantity >= stock;
-      }
-    });
-
-    decreaseQtyBtn.addEventListener('click', () => {
-      if (currentQuantity > 1) {
-        currentQuantity--;
-        quantityInput.value = currentQuantity;
-        
-        // Enable tombol increase jika sebelumnya disabled
-        if (modalCurrentItem && increaseQtyBtn.disabled) {
-          const stock = getItemStock(modalCurrentItem, selectedVariants);
-          increaseQtyBtn.disabled = currentQuantity >= stock;
-        }
-      }
-    });
-
-    increaseQtyBtn.addEventListener('click', () => {
-      if (modalCurrentItem) {
-        const stock = getItemStock(modalCurrentItem, selectedVariants);
-        if (currentQuantity >= stock) {
-          showNotification(`Maaf, stok hanya tersedia ${stock} item`);
-          return;
-        }
-      }
-      
-      currentQuantity++;
-      quantityInput.value = currentQuantity;
-      
-      // Disable tombol increase jika mencapai stok maks
-      if (modalCurrentItem) {
-        const stock = getItemStock(modalCurrentItem, selectedVariants);
-        increaseQtyBtn.disabled = currentQuantity >= stock;
-      }
-    });
-
-    // Initialize
-    switchTab('products');
+function increaseQty(id) {
+if (cart[id]) {
+  const stock = getItemStock(cart[id], cart[id].selectedVariants || {});
+  if (cart[id].qty < stock) {
+    cart[id].qty += 1;
     renderCart();
-    updateCartBadge();
+  } else {
+    showNotification("Jumlah melebihi stok yang tersedia.");
+  }
+}
+}
 
-    // Simulate loading data
-    setTimeout(() => {
-      showNotification('Selamat datang di HIMA BISA Marketplace!', false);
-    }, 1000);
-  })();
+function showCartPanel() {
+cartPanel.classList.add('active');
+}
+
+function hideCartPanel() {
+cartPanel.classList.remove('active');
+}
+
+function clearCart() {
+cart = {};
+renderCart();
+hideCartPanel();
+showNotification('Keranjang telah dikosongkan', false);
+}
+
+function checkoutCart() {
+if (Object.keys(cart).length === 0) {
+  showNotification("Keranjang kosong.");
+  return;
+}
+
+const sellerPhone = currentSeller ? data.products.find(p => p.seller === currentSeller)?.sellerPhone : 
+  data.jasa.find(j => j.seller === currentSeller)?.sellerPhone;
+if (!sellerPhone) {
+  showNotification("Nomor seller tidak ditemukan.");
+  return;
+}
+
+let message = `Halo ${currentSeller},\nSaya ingin memesan:\n\n`;
+let total = 0;
+
+Object.values(cart).forEach(item => {
+  const itemTotal = item.price * item.qty;
+  total += itemTotal;
+  let variantString = '';
+  if (item.selectedVariants) {
+    variantString = Object.entries(item.selectedVariants)
+      .map(([key, value]) => `${key}: ${value}`)
+      .join(', ');
+  }
+  message += `${item.title} ${variantString ? '(' + variantString + ')' : ''} - ${item.qty}x - ${formatPrice(item.price)} (Total: ${formatPrice(itemTotal)})\n`;
+});
+
+message += `\nTotal Pembayaran: ${formatPrice(total)}\nTerima kasih!`;
+
+const whatsappUrl = `https://wa.me/${sellerPhone.replace('+', '').replace(' ', '')}?text=${encodeURIComponent(message)}`;
+window.open(whatsappUrl, '_blank');
+clearCart();
+}
+
+// Event Listeners
+tabs.products.addEventListener('click', () => switchTab('products'));
+tabs.jasa.addEventListener('click', () => switchTab('jasa'));
+
+searchInput.addEventListener('input', (e) => {
+  const value = e.target.value.trim().toLowerCase();
+  if (value && value !== searchInput.getAttribute('placeholder').toLowerCase()) {
+    searchQuery = value;
+  } else {
+    searchQuery = '';
+  }
+  renderListings();
+});
+
+sortSelect.addEventListener('change', (e) => {
+  sortBy = e.target.value;
+  renderListings();
+});
+
+modalCloseBtn.addEventListener('click', closeModal);
+document.querySelector('.modal-close').addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) closeModal();
+});
+
+modalAddCartBtn.addEventListener('click', addToCart);
+
+modalWishlistBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (modalCurrentItem) {
+    const isActive = toggleWishlist(modalCurrentItem.id);
+    modalWishlistBtn.classList.toggle('active', isActive);
+    modalWishlistBtn.innerHTML = `<i class="${isActive ? 'fas' : 'far'} fa-heart"></i>`;
+    showNotification(
+      isActive ? 'Ditambahkan ke wishlist' : 'Dihapus dari wishlist',
+      false
+    );
+  }
+});
+
+cartToggleBtn.addEventListener('click', () => {
+  if (cartPanel.classList.contains('active')) {
+    hideCartPanel();
+  } else {
+    showCartPanel();
+  }
+});
+
+clearCartBtn.addEventListener('click', clearCart);
+
+cartCheckoutBtn.addEventListener('click', checkoutCart);
+
+decreaseQtyBtn.addEventListener('click', () => {
+  if (currentQuantity > 1) {
+    currentQuantity -= 1;
+    quantityInput.value = currentQuantity;
+    updateStockInfo();
+  }
+});
+
+increaseQtyBtn.addEventListener('click', () => {
+  const stock = getItemStock(modalCurrentItem, selectedVariants);
+  if (currentQuantity < stock) {
+    currentQuantity += 1;
+    quantityInput.value = currentQuantity;
+    updateStockInfo();
+  }
+});
+
+quantityInput.addEventListener('change', (e) => {
+  const stock = getItemStock(modalCurrentItem, selectedVariants);
+  currentQuantity = Math.max(1, Math.min(parseInt(e.target.value) || 1, stock));
+  quantityInput.value = currentQuantity;
+  updateStockInfo();
+});
+
+// Inisialisasi
+function switchTab(tab) {
+  currentTab = tab;
+  tabs.products.classList.toggle('active', tab === 'products');
+  tabs.jasa.classList.toggle('active', tab === 'jasa');
+  tabs.products.setAttribute('aria-selected', tab === 'products');
+  tabs.jasa.setAttribute('aria-selected', tab === 'jasa');
+  searchQuery = '';
+  searchInput.value = '';
+  currentFilter = 'Semua';
+  renderListings();
+  renderCart();
+  updateCartBadge();
+}
+
+switchTab('products');
+renderCart();
+updateCartBadge();
+})();
 </script>
-
 </body>
 </html>
-   
-
-
-
-         
